@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>This week</h1>
+    <h1>Marathon Training Plan 😀</h1>
 
     <main>
         <div id="current-week-container">
@@ -61,13 +61,62 @@
 
     <script src="common.js"></script>
     <script>
+        // These functions need to be defined locally to ensure they work on this page
+        // Toggle completed class when checkbox is checked
+        function toggleCompleted(checkbox, weekNum) {
+            const card = checkbox.closest('.day-card');
+            if (checkbox.checked) {
+                card.classList.add('completed');
+            } else {
+                card.classList.remove('completed');
+            }
+            
+            updateProgressBar(weekNum);
+            saveProgress();
+        }
+
+        // Update progress bar for a specific week - fills from left to right
+        function updateProgressBar(weekNum) {
+            const weekId = 'current_week';
+            const checkboxes = document.querySelectorAll(`#${weekId}-container input[type="checkbox"]`);
+            const totalWorkouts = checkboxes.length;
+            let completedWorkouts = 0;
+            let completedDistance = 0;
+            const weekPlan = trainingPlan[0]; // Using first week
+            const totalDistance = calculateWeekDistance(weekPlan.workouts);
+            
+            // Count completed workouts
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    completedWorkouts++;
+                    completedDistance += weekPlan.workouts[index].distance;
+                }
+            });
+            
+            // Update progress segments from left to right based on total completed
+            const progressSegments = document.querySelectorAll(`#${weekId}-container .progress-segment`);
+            progressSegments.forEach((segment, index) => {
+                if (index < completedWorkouts) {
+                    segment.classList.add('completed');
+                } else {
+                    segment.classList.remove('completed');
+                }
+            });
+            
+            const workoutsText = document.getElementById(`${weekId}-workouts`);
+            const distanceText = document.getElementById(`${weekId}-distance`);
+            
+            workoutsText.innerHTML = `<span class="label">Workouts:</span><span class="value">${completedWorkouts}/${totalWorkouts}</span>`;
+            distanceText.innerHTML = `<span class="label">Distance:</span><span class="value">${completedDistance}/${totalDistance}km</span>`;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             renderFirstWeek(); // Modified to show first week instead of current week
             loadProgress();
             
             // Modified to always show the first week (index 0) regardless of date
             function renderFirstWeek() {
-                const startDate = new Date('2025-06-01'); // Plan start date
+                const startDate = new Date('2025-06-02'); // Monday, June 2nd, 2025
                 
                 // Always use the first week (index 0)
                 const currentWeekIndex = 0;
@@ -76,13 +125,12 @@
                 const currentWeek = trainingPlan[currentWeekIndex];
                 const weekId = `current_week`;
                 
-                // Calculate week dates
-                const weekStartDate = new Date(startDate);
-                const weekDates = generateDatesForWeek(weekStartDate);
+                // Calculate week dates starting from Monday
+                const weekDates = generateDatesForWeek(startDate);
                 
                 // Update week header
                 document.getElementById('current-week-date').textContent = 
-                    `Week ${currentWeekIndex + 1}: ${formatDate(weekStartDate)}`;
+                    `Week ${currentWeekIndex + 1}: ${formatDate(startDate)}`;
                 document.getElementById('current-week-distance').textContent = 
                     currentWeek.weekDistance;
                 
@@ -146,7 +194,7 @@
                 updateProgressBar(currentWeekIndex + 1);
             }
             
-            // Helper function to generate dates for a week
+            // Helper function to generate dates for a week (Monday first)
             function generateDatesForWeek(startDate) {
                 const dates = [];
                 const currentDate = new Date(startDate);
@@ -157,6 +205,17 @@
                 }
                 
                 return dates;
+            }
+            
+            // Format date as Day Month DD (Modified to match your format)
+            function formatDate(date) {
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                
+                // Adjust to make Monday = 0, Sunday = 6
+                const dayIndex = (date.getDay() + 6) % 7;
+                
+                return `${days[dayIndex]} ${months[date.getMonth()]} ${date.getDate()}`;
             }
             
             // Load progress from local storage and update UI
@@ -173,11 +232,11 @@
                             if (progress[id]) {
                                 checkbox.closest('.day-card').classList.add('completed');
                             }
-                            
-                            // Only need to update week 1 now
-                            updateProgressBar(1, 'current_week');
                         }
                     });
+                    
+                    // Update progress bar after loading progress
+                    updateProgressBar(1);
                 }
             }
             

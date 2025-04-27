@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Coming up</h1>
+    <h1>Marathon Training Plan 😀</h1>
 
     <div id="weeks-container">
         <!-- All weeks will be generated here -->
@@ -65,7 +65,7 @@
             const weekHeaders = document.querySelectorAll('.week-header');
             
             weekHeaders.forEach((header, index) => {
-                const weekStartDate = new Date('2025-06-01');
+                const weekStartDate = new Date('2025-06-02'); // Monday, June 2nd (changed from June 1st)
                 weekStartDate.setDate(weekStartDate.getDate() + (index * 7));
                 const weekEndDate = new Date(weekStartDate);
                 weekEndDate.setDate(weekEndDate.getDate() + 6);

@@ -388,7 +388,7 @@
   
   .bar-chart-progress {
       height: 100%;
-      background-color: var(--color-salmon);
+      background-color: var(--color-success);
       border-radius: 12px;
       transition: width 0.5s ease;
   }

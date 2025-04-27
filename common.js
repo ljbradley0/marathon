@@ -78,7 +78,7 @@ const trainingPlan = [
     ]}
 ];
 
-// Function to generate dates
+// Function to generate dates starting from Monday
 function generateDates(startDate, numWeeks) {
     const dates = [];
     const currentDate = new Date(startDate);
@@ -95,17 +95,20 @@ function generateDates(startDate, numWeeks) {
     return dates;
 }
 
-// Format date as Day Month DD
+// Format date as Day Month DD (Monday first)
 function formatDate(date) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     
-    return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()}`;
+    // Adjust to make Monday = 0, Sunday = 6
+    const dayIndex = (date.getDay() + 6) % 7;
+    
+    return `${days[dayIndex]} ${months[date.getMonth()]} ${date.getDate()}`;
 }
 
 // Generate HTML for all weeks
 function generateWeeksHTML() {
-    const startDate = new Date('2025-06-01');
+    const startDate = new Date('2025-06-02'); // Monday, June 2nd, 2025
     const dates = generateDates(startDate, trainingPlan.length);
     let html = '';
 
@@ -201,12 +204,12 @@ function toggleCompleted(checkbox, weekNum) {
     saveProgress();
 }
 
-// Update progress bar for a specific week
+// Update progress bar for a specific week - fills from left to right
 function updateProgressBar(weekNum, weekPrefix = 'week') {
     const weekId = `${weekPrefix}${weekNum}`;
     const checkboxes = document.querySelectorAll(`#${weekId}-container input[type="checkbox"]`);
     
-    if (checkboxes.length === 0) return; // Skip if no checkboxes found (might be on a different page)
+    if (checkboxes.length === 0) return; // Skip if no checkboxes found
     
     const totalWorkouts = checkboxes.length;
     let completedWorkouts = 0;
@@ -214,18 +217,21 @@ function updateProgressBar(weekNum, weekPrefix = 'week') {
     const weekPlan = trainingPlan[weekNum - 1];
     const totalDistance = calculateWeekDistance(weekPlan.workouts);
     
+    // Count completed workouts
     checkboxes.forEach((checkbox, index) => {
-        const progressSegmentId = `${weekId}-progress-${index}`;
-        const progressSegment = document.getElementById(progressSegmentId);
-        
         if (checkbox.checked) {
             completedWorkouts++;
             completedDistance += weekPlan.workouts[index].distance;
-            if (progressSegment) {
-                progressSegment.classList.add('completed');
-            }
-        } else if (progressSegment) {
-            progressSegment.classList.remove('completed');
+        }
+    });
+    
+    // Update progress segments from left to right based on total completed
+    const progressSegments = document.querySelectorAll(`#${weekId}-container .progress-segment`);
+    progressSegments.forEach((segment, index) => {
+        if (index < completedWorkouts) {
+            segment.classList.add('completed');
+        } else {
+            segment.classList.remove('completed');
         }
     });
     
