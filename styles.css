@@ -1,133 +1,241 @@
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-        h2 {
-            background-color: #9b59b6;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .week-distance {
-            font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-        .week-container {
-            margin-bottom: 40px;
-        }
-        .days-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-        .day-card {
-            background-color: #fefefe;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            padding: 16px;
-            flex: 1;
-            min-width: 200px;
-            max-width: 250px;
-            transition: transform 0.2s;
-            position: relative;
-            border: 2px solid #eaeaea;
-            display: flex;
-            flex-direction: column;
-        }
-        .day-card:hover {
-            transform: translateY(-5px);
-        }
-        .day-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            border-radius: 8px 0 0 8px;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-        .date-container {
-            color: #7d8287;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-        }
-        .checkbox-container input {
-            transform: scale(1.5);
-        }
-        .workout-title {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-        .workout-type {
-            font-size: 12px;
-            color: #2c3e50;
-            font-weight: 500;
-        }
-        .card-content {
-            display: flex;
-            flex-direction: column;
-        }
-        .checkbox-container label {
-            font-size: 16px;
-            color: #34495e;
-        }
-        .completed {
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
-        /* Different colors for different workout types */
-        .strength::before { background-color: #e74c3c; }
-        .easy::before { background-color: #2ecc71; }
-        .rest::before { background-color: #95a5a6; }
-        .tempo::before { background-color: #f39c12; }
-        .interval::before { background-color: #9b59b6; }
-        .long::before { background-color: #3498db; }
-        
-        /* Progress bar styling */
-        .progress-container {
-            margin: 15px 0;
-            width: 100%;
-            background-color: #ecf0f1;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 10px;
-            background-color: #2ecc71;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        .progress-text {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 5px;
-            color: #7f8c8d;
-        }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F7F7F7;
+    color: #1A0505;
+    margin: 0;
+    padding: 20px;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    text-align: center;
+    color: #1A0505;
+    margin-bottom: 30px;
+    font-size: 2rem;        /* 32px */
+    font-weight: 700;       /* bold */
+    letter-spacing: -0.02em;
+}
+
+/* Week Header Styles */
+.week-header {
+    width: 100%;
+    background-color: transparent;
+    color: #1A0505;
+    padding: 16px 4px;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.week-header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chevron-icon {
+    transition: transform 0.3s ease;
+    color: #1A0505;
+}
+
+.week-content {
+    overflow: hidden;
+    max-height: 2000px; /* Arbitrary large height */
+    transition: max-height 0.3s ease-in-out;
+    padding-top: 16px;
+}
+
+.week-content.collapsed {
+    max-height: 0;
+    padding-top: 0;
+}
+
+.week-container {
+    margin-bottom: 8px;
+}
+
+/* Rotate chevron when expanded */
+.week-header[aria-expanded="true"] .chevron-icon {
+    transform: rotate(90deg);
+}
+
+.week-distance {
+    font-size: 0.875rem;
+    background-color: transparent;
+    padding: 0;
+    font-weight: 500;
+    color: #969696;
+}
+
+/* Progress bar styling */
+.progress-container {
+    margin: 15px 0 16px 0;
+    width: 100%;
+}
+
+.progress-bars {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.progress-segment {
+    flex: 1;
+    height: 8px;
+    background-color: #E5E5E5;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.progress-segment.completed {
+    background-color: #72E4B0;
+}
+
+.progress-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    margin-top: 8px;
+}
+
+.workouts-count, .distance-count {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.workouts-count .label,
+.distance-count .label {
+    color: #1A0505;
+}
+
+.workouts-count .value,
+.distance-count .value {
+    color: #969696;
+    margin-left: 4px;
+}
+
+/* Card Styles */
+.days-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.day-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+.day-card:hover {
+    transform: translateY(-2px);
+}
+*/
+
+.day-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border-radius: 8px 0 0 8px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.date-container {
+    color: #969696;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input {
+    transform: scale(1.5);
+    accent-color: #1A0505;
+    border: 2px solid #969696;
+}
+
+.workout-title {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #1A0505;
+    letter-spacing: -0.02em;
+}
+
+.workout-time {
+    font-size: 0.875rem;
+    color: #969696;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.completed {
+    /*text-decoration: line-through;*/
+    opacity: 0.7;
+}
+
+
+/* Workout type indicators */
+.strength::before { background-color: #DB8043; }    /* Crossfit */
+.easy::before { background-color: #43C4DB; }        /* Easy run */
+.long::before { background-color: #8A43DB; }        /* Long run */
+.rest::before { background-color: #1A0505; }        /* Rest */
+.tempo::before { background-color: #43C4DB; }       /* Using Easy run color */
+.interval::before { background-color: #DB8043; }    /* Using Crossfit color */
+.zone::before { background-color: #43C4DB; }        /* Using Easy run color */
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .week-header {
+        padding: 12px 4px;
+    }
+
+    .day-card {
+        padding: 24px;
+    }
+}
