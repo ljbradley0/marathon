@@ -307,9 +307,10 @@
       flex-direction: column;
   }
   
+  /*
   .completed {
       opacity: 0.7;
-  }
+  } */
   
   /* Workout type indicators */
   .strength::before { background-color: var(--color-salmon); }
