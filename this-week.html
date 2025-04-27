@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marathon Training Plan - This Week</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>This week</h1>
+
+    <main>
+        <div id="current-week-container">
+            <!-- Current week content will be rendered here -->
+            <div class="week-header-banner">
+                <h2 id="current-week-date">Current Week</h2>
+                <span class="week-distance" id="current-week-distance"></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item" id="home-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="this-week.html" class="nav-item active" id="this-week-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 14H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 14H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 14H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 18H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 18H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 18H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">This Week</span>
+        </a>
+        <a href="coming-up.html" class="nav-item" id="coming-up-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 12H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Coming Up</span>
+        </a>
+    </nav>
+
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFirstWeek(); // Modified to show first week instead of current week
+            loadProgress();
+            
+            // Modified to always show the first week (index 0) regardless of date
+            function renderFirstWeek() {
+                const startDate = new Date('2025-06-01'); // Plan start date
+                
+                // Always use the first week (index 0)
+                const currentWeekIndex = 0;
+                
+                // Get first week plan
+                const currentWeek = trainingPlan[currentWeekIndex];
+                const weekId = `current_week`;
+                
+                // Calculate week dates
+                const weekStartDate = new Date(startDate);
+                const weekDates = generateDatesForWeek(weekStartDate);
+                
+                // Update week header
+                document.getElementById('current-week-date').textContent = 
+                    `Week ${currentWeekIndex + 1}: ${formatDate(weekStartDate)}`;
+                document.getElementById('current-week-distance').textContent = 
+                    currentWeek.weekDistance;
+                
+                // Generate week content HTML
+                let weekHTML = `
+                    <div class="week-container" id="${weekId}-container">
+                        <div class="week-content">
+                            <div class="progress-container">
+                                <div class="progress-bars">
+                                    ${Array(7).fill().map((_, i) => `
+                                        <div class="progress-segment" id="${weekId}-progress-${i}"></div>
+                                    `).join('')}
+                                </div>
+                                <div class="progress-footer">
+                                    <div class="workouts-count" id="${weekId}-workouts">
+                                        <span class="label">Workouts:</span>
+                                        <span class="value">0/7</span>
+                                    </div>
+                                    <div class="distance-count" id="${weekId}-distance">
+                                        <span class="label">Distance:</span>
+                                        <span class="value">0/${calculateWeekDistance(currentWeek.workouts)}km</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="days-container">
+                `;
+
+                // Generate day cards
+                weekDates.forEach((date, dayIndex) => {
+                    const workout = currentWeek.workouts[dayIndex];
+                    const id = `week${currentWeekIndex + 1}_day${dayIndex + 1}`;
+                    
+                    weekHTML += `
+                        <div class="day-card ${workout.type}">
+                            <div class="card-header">
+                                <div class="date-container">
+                                    ${formatDate(date)}
+                                </div>
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${currentWeekIndex + 1})">
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="workout-title">${workout.title}</div>
+                                <div class="workout-time">${workout.time}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                weekHTML += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append week content after the header
+                document.getElementById('current-week-container').innerHTML += weekHTML;
+                
+                // Update progress bar for first week
+                updateProgressBar(currentWeekIndex + 1);
+            }
+            
+            // Helper function to generate dates for a week
+            function generateDatesForWeek(startDate) {
+                const dates = [];
+                const currentDate = new Date(startDate);
+                
+                for (let day = 0; day < 7; day++) {
+                    dates.push(new Date(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                
+                return dates;
+            }
+            
+            // Load progress from local storage and update UI
+            function loadProgress() {
+                const savedProgress = localStorage.getItem('marathonProgress');
+                
+                if (savedProgress) {
+                    const progress = JSON.parse(savedProgress);
+                    
+                    Object.keys(progress).forEach(id => {
+                        const checkbox = document.getElementById(id);
+                        if (checkbox) {
+                            checkbox.checked = progress[id];
+                            if (progress[id]) {
+                                checkbox.closest('.day-card').classList.add('completed');
+                            }
+                            
+                            // Only need to update week 1 now
+                            updateProgressBar(1, 'current_week');
+                        }
+                    });
+                }
+            }
+            
+            // Add active class to current page navigation item
+            const currentPage = window.location.pathname.split('/').pop();
+            if (currentPage === 'index.html' || currentPage === '') {
+                document.getElementById('home-link').classList.add('active');
+            } else if (currentPage === 'this-week.html') {
+                document.getElementById('this-week-link').classList.add('active');
+            } else if (currentPage === 'coming-up.html') {
+                document.getElementById('coming-up-link').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
