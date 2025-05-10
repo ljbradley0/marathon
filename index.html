@@ -3,321 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marathon Training Plan</title>
+    <title>Marathon Training Plan - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="design-system-tokens.css">  
+    <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
-        <h1 class="font-heading-xxlarge">Marathon Training Plan 😀</h1>
-        
-        <div class="app-description">
-            <p>Your personalized training plan to prepare for your marathon in August.</p>
-        </div>
+        <h1 class="font-heading-xlarge">Marathon Training Plan 😀</h1>
 
-        <div id="weeks-container">
-            <!-- Weeks will be generated here via JavaScript -->
-        </div>
+        <main>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h2 class="font-heading-small">Total Progress</h2>
+                    <div class="circle-chart" id="progress-chart"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h2 class="font-heading-small">Workouts Completed</h2>
+                    <div class="bar-chart" id="workouts-chart"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h2 class="font-heading-small">Distance Completed</h2>
+                    <div class="bar-chart" id="distance-chart"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active" id="home-link">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="this-week.html" class="nav-item" id="this-week-link">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="nav-label">This Week</span>
+            </a>
+            <a href="coming-up.html" class="nav-item" id="coming-up-link">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 6H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 12H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="nav-label">Coming Up</span>
+            </a>
+        </nav>
     </div>
 
+    <script src="common.js"></script>
     <script>
-        // Helper function for calculating total distance
-        function calculateWeekDistance(workouts) {
-            return workouts.reduce((total, workout) => total + workout.distance, 0);
-        }
-
-        function calculateRunTime(distance, paceMin) {
-            return Math.round(distance * paceMin);
-        }
-        
-        function formatTime(minutes) {
-            if (minutes >= 60) {
-                const hours = Math.floor(minutes / 60);
-                const mins = minutes % 60;
-                return `${hours}h ${mins}m`;
-            }
-            return `${minutes}m`;
-        }
-        
-        // Define paces
-        const PACES = {
-            easy: 6.5,    // 6:30 min/km
-            tempo: 5.5,   // 5:30 min/km
-            long: 6.5,    // Using easy pace for long runs
-            interval: 6,   // Average pace for interval sessions
-            strength: 45,  // Fixed 45m for Crossfit
-            rest: 0       // No time for rest days
-        };
-
-        // Define the training plan with weekly distances
-        const trainingPlan = [
-            { weekDistance: "40-45km", workouts: [
-                { title: "Easy run 5km", distance: 5, type: "easy", 
-                time: formatTime(calculateRunTime(5, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Tempo run 6km", distance: 6, type: "tempo", 
-                time: formatTime(calculateRunTime(6, PACES.tempo)) },
-                { title: "Rest", distance: 0, type: "rest", 
-                time: formatTime(PACES.rest) },
-                { title: "Easy run 5km", distance: 5, type: "easy", 
-                time: formatTime(calculateRunTime(5, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Long run 12km", distance: 12, type: "long", 
-                time: formatTime(calculateRunTime(12, PACES.long)) }
-            ]},
-            { weekDistance: "45-50km", workouts: [
-                { title: "Easy run 5km", distance: 5, type: "easy", 
-                time: formatTime(calculateRunTime(5, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Tempo run 7km", distance: 7, type: "tempo", 
-                time: formatTime(calculateRunTime(7, PACES.tempo)) },
-                { title: "Rest", distance: 0, type: "rest", 
-                time: formatTime(PACES.rest) },
-                { title: "Easy run 6km", distance: 6, type: "easy", 
-                time: formatTime(calculateRunTime(6, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Long run 14km", distance: 14, type: "long", 
-                time: formatTime(calculateRunTime(14, PACES.long)) }
-            ]},
-            { weekDistance: "50-55km", workouts: [
-                { title: "Easy run 6km", distance: 6, type: "easy", 
-                time: formatTime(calculateRunTime(6, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Intervals 8km", distance: 8, type: "interval", 
-                time: formatTime(calculateRunTime(8, PACES.interval)) },
-                { title: "Rest", distance: 0, type: "rest", 
-                time: formatTime(PACES.rest) },
-                { title: "Easy run 7km", distance: 7, type: "easy", 
-                time: formatTime(calculateRunTime(7, PACES.easy)) },
-                { title: "Crossfit", distance: 0, type: "strength", 
-                time: formatTime(PACES.strength) },
-                { title: "Long run 16km", distance: 16, type: "long", 
-                time: formatTime(calculateRunTime(16, PACES.long)) }
-            ]}
-        ];
-
-        // Function to generate dates
-        function generateDates(startDate, numWeeks) {
-            const dates = [];
-            const currentDate = new Date(startDate);
-            
-            for (let week = 0; week < numWeeks; week++) {
-                const weekDates = [];
-                for (let day = 0; day < 7; day++) {
-                    weekDates.push(new Date(currentDate));
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-                dates.push(weekDates);
+        // Ensure everything is loaded before trying to render
+        window.addEventListener('load', function() {
+            if (typeof trainingPlan === 'undefined') {
+                console.error("trainingPlan not found - common.js might not be loaded correctly");
+                document.querySelector('.charts-container').innerHTML = '<p>Error loading training data. Please refresh the page.</p>';
+                return;
             }
             
-            return dates;
-        }
-
-        // Format date as Day Month DD
-        function formatDate(date) {
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()}`;
-        }
-
-        // Generate HTML for all weeks
-        function generateWeeksHTML() {
-            const startDate = new Date('2025-06-01');
-            const dates = generateDates(startDate, trainingPlan.length);
-            let html = '';
-
-            dates.forEach((weekDates, weekIndex) => {
-                const weekPlan = trainingPlan[weekIndex];
-                const weekId = `week${weekIndex + 1}`;
-                const firstDateOfWeek = formatDate(weekDates[0]);
+            initDashboard();
+        });
+        
+        // Main initialization function
+        function initDashboard() {
+            try {
+                console.log("Initializing dashboard...");
                 
-                html += `
-                <div class="week-container" id="${weekId}-container">
-                    <button class="week-header" onclick="toggleWeek(this)" aria-expanded="false" aria-controls="${weekId}-content">
-                        <div class="week-header-content">
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="week-date font-heading-small">${firstDateOfWeek}</span>
-                        </div>
-                        <span class="week-distance">${weekPlan.weekDistance}</span>
-                    </button>
-                    
-                    <div class="week-content collapsed" id="${weekId}-content">
-                        <div class="progress-container">
-                            <div class="progress-bars">
-                                ${Array(7).fill().map((_, i) => `
-                                    <div class="progress-segment" id="${weekId}-progress-${i}"></div>
-                                `).join('')}
-                            </div>
-                            <div class="progress-footer">
-                                <div class="workouts-count" id="${weekId}-workouts">
-                                    <span class="label">Workouts:</span>
-                                    <span class="value">0/7</span>
-                                </div>
-                                <div class="distance-count" id="${weekId}-distance">
-                                    <span class="label">Distance:</span>
-                                    <span class="value">0/${calculateWeekDistance(weekPlan.workouts)}km</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="days-container">
+                // Render all charts
+                renderProgressChart();
+                renderWorkoutsChart();
+                renderDistanceChart();
+                
+                console.log("Dashboard initialized successfully");
+            } catch (error) {
+                console.error("Error initializing dashboard:", error);
+                document.querySelector('.charts-container').innerHTML = `
+                    <div class="error-message">
+                        <p>There was a problem loading your dashboard.</p>
+                        <p>Error: ${error.message}</p>
+                        <p>Please try refreshing the page.</p>
+                    </div>
                 `;
-
-                weekDates.forEach((date, dayIndex) => {
-                    const workout = weekPlan.workouts[dayIndex];
-                    const id = `week${weekIndex + 1}_day${dayIndex + 1}`;
+            }
+        }
+        
+        // Render the progress circle chart
+        function renderProgressChart() {
+            const totalWeeks = trainingPlan.length;
+            let completedWeeks = 0;
+            
+            // Calculate completed weeks
+            for (let weekIndex = 0; weekIndex < totalWeeks; weekIndex++) {
+                const weekId = `week${weekIndex + 1}`;
+                const totalWorkouts = trainingPlan[weekIndex].workouts.length;
+                const completedWorkouts = getCompletedWorkoutsCount(weekIndex);
+                
+                // Consider a week complete if all workouts are done
+                if (completedWorkouts === totalWorkouts) {
+                    completedWeeks++;
+                }
+            }
+            
+            // Calculate percentage
+            const percentComplete = Math.round((completedWeeks / totalWeeks) * 100);
+            
+            // Generate SVG for circle chart
+            const radius = 80;
+            const strokeWidth = 12;
+            const center = radius + strokeWidth;
+            const circumference = 2 * Math.PI * radius;
+            const strokeDashoffset = circumference - (percentComplete / 100) * circumference;
+            
+            const chartHTML = `
+                <div class="circle-chart-container">
+                    <svg width="${center * 2}" height="${center * 2}" viewBox="0 0 ${center * 2} ${center * 2}">
+                        <!-- Background circle -->
+                        <circle 
+                            cx="${center}" 
+                            cy="${center}" 
+                            r="${radius}"
+                            fill="transparent"
+                            stroke="var(--color-progress-empty)"
+                            stroke-width="${strokeWidth}"
+                        />
+                        
+                        <!-- Progress circle -->
+                        <circle 
+                            cx="${center}" 
+                            cy="${center}" 
+                            r="${radius}"
+                            fill="transparent"
+                            stroke="var(--color-type-strength)"
+                            stroke-width="${strokeWidth}"
+                            stroke-dasharray="${circumference}"
+                            stroke-dashoffset="${strokeDashoffset}"
+                            transform="rotate(-90 ${center} ${center})"
+                            stroke-linecap="round"
+                        />
+                    </svg>
                     
-                    html += `
-                        <div class="day-card ${workout.type}">
-                            <div class="card-header">
-                                <div class="date-container">
-                                    ${formatDate(date)}
-                                </div>
-                                <div class="checkbox-container">
-                                    <input type="checkbox" id="${id}" aria-label="Mark as completed" onchange="toggleCompleted(this, ${weekIndex + 1})">
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <div class="workout-title">${workout.title}</div>
-                                <div class="workout-time">${workout.time}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                html += `
-                        </div>
+                    <!-- Percentage text in the middle -->
+                    <div class="circle-percent">
+                        <span>${percentComplete}%</span>
+                    </div>
+                    <div class="circle-label">
+                        <span>${completedWeeks}/${totalWeeks} weeks</span>
                     </div>
                 </div>
-                `;
-            });
-
-            return html;
-        }
-
-        // Toggle week expansion
-        function toggleWeek(button) {
-            const content = button.nextElementSibling;
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            `;
             
-            button.setAttribute('aria-expanded', !isExpanded);
-            content.classList.toggle('collapsed');
+            document.getElementById('progress-chart').innerHTML = chartHTML;
         }
-
-        // Toggle completed class when checkbox is checked
-        function toggleCompleted(checkbox, weekNum) {
-            const card = checkbox.closest('.day-card');
-            if (checkbox.checked) {
-                card.classList.add('completed');
-            } else {
-                card.classList.remove('completed');
-            }
-            
-            updateProgressBar(weekNum);
-            saveProgress();
-        }
-
-        // Update progress bar for a specific week
-        function updateProgressBar(weekNum) {
-            const weekId = `week${weekNum}`;
-            const checkboxes = document.querySelectorAll(`#${weekId}-container input[type="checkbox"]`);
-            const totalWorkouts = checkboxes.length;
+        
+        // Render workout completion bar chart
+        function renderWorkoutsChart() {
+            const totalWorkouts = trainingPlan.reduce((total, week) => 
+                total + week.workouts.length, 0);
             let completedWorkouts = 0;
-            let completedDistance = 0;
-            const weekPlan = trainingPlan[weekNum - 1];
-            const totalDistance = calculateWeekDistance(weekPlan.workouts);
             
-            checkboxes.forEach((checkbox, index) => {
-                const progressSegment = document.getElementById(`${weekId}-progress-${index}`);
-                if (checkbox.checked) {
+            // Count completed workouts
+            const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+            Object.keys(savedProgress).forEach(id => {
+                if (savedProgress[id]) {
                     completedWorkouts++;
-                    completedDistance += weekPlan.workouts[index].distance;
-                    progressSegment.classList.add('completed');
-                } else {
-                    progressSegment.classList.remove('completed');
                 }
             });
             
-            const workoutsText = document.getElementById(`${weekId}-workouts`);
-            const distanceText = document.getElementById(`${weekId}-distance`);
+            // Calculate percentage
+            const percentage = Math.min(100, Math.round((completedWorkouts / totalWorkouts) * 100));
             
-            workoutsText.innerHTML = `<span class="label">Workouts:</span><span class="value">${completedWorkouts}/7</span>`;
-            distanceText.innerHTML = `<span class="label">Distance:</span><span class="value">${completedDistance}/${totalDistance}km</span>`;
+            // Generate HTML for bar chart
+            const chartHTML = `
+                <div class="bar-chart-container">
+                    <div class="bar-chart-header">
+                        <span>${completedWorkouts}/${totalWorkouts} workouts</span>
+                    </div>
+                    <div class="bar-chart-bar">
+                        <div class="bar-chart-progress" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('workouts-chart').innerHTML = chartHTML;
         }
-
-        // Save progress to local storage
-        function saveProgress() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const progress = {};
+        
+        // Render distance completion bar chart
+        function renderDistanceChart() {
+            const totalDistance = trainingPlan.reduce((total, week) => 
+                total + calculateWeekDistance(week.workouts), 0);
+            let completedDistance = 0;
             
-            checkboxes.forEach(checkbox => {
-                progress[checkbox.id] = checkbox.checked;
-            });
+            // Calculate completed distance
+            const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
             
-            localStorage.setItem('marathonProgress', JSON.stringify(progress));
-        }
-
-        // Load progress from local storage
-        function loadProgress() {
-            const savedProgress = localStorage.getItem('marathonProgress');
-            
-            if (savedProgress) {
-                const progress = JSON.parse(savedProgress);
-                
-                Object.keys(progress).forEach(id => {
-                    const checkbox = document.getElementById(id);
-                    if (checkbox) {
-                        checkbox.checked = progress[id];
-                        if (progress[id]) {
-                            checkbox.closest('.day-card').classList.add('completed');
-                        }
-                        
-                        // Extract week number from the ID (format: weekX_dayY)
-                        const weekMatch = id.match(/week(\d+)_/);
-                        if (weekMatch && weekMatch[1]) {
-                            const weekNum = parseInt(weekMatch[1]);
-                            updateProgressBar(weekNum);
-                        }
+            trainingPlan.forEach((week, weekIndex) => {
+                week.workouts.forEach((workout, dayIndex) => {
+                    const id = `week${weekIndex + 1}_day${dayIndex + 1}`;
+                    if (savedProgress[id]) {
+                        completedDistance += workout.distance;
                     }
                 });
-            }
-            
-            // Initialize all progress bars
-            for (let i = 1; i <= trainingPlan.length; i++) {
-                updateProgressBar(i);
-            }
-        }
-
-        // When DOM is loaded, add the weeks and load saved progress
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('weeks-container').innerHTML = generateWeeksHTML();
-            loadProgress();
-            
-            // Get current date and expand current week
-            const today = new Date();
-            const weekHeaders = document.querySelectorAll('.week-header');
-            
-            weekHeaders.forEach((header, index) => {
-                const weekStartDate = new Date('2025-06-01');
-                weekStartDate.setDate(weekStartDate.getDate() + (index * 7));
-                const weekEndDate = new Date(weekStartDate);
-                weekEndDate.setDate(weekEndDate.getDate() + 6);
-                
-                if (today >= weekStartDate && today <= weekEndDate) {
-                    toggleWeek(header);
-                }
             });
-        });
+            
+            // Calculate percentage
+            const percentage = Math.min(100, Math.round((completedDistance / totalDistance) * 100));
+            
+            // Generate HTML for bar chart
+            const chartHTML = `
+                <div class="bar-chart-container">
+                    <div class="bar-chart-header">
+                        <span>${completedDistance}/${totalDistance} km</span>
+                    </div>
+                    <div class="bar-chart-bar">
+                        <div class="bar-chart-progress" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('distance-chart').innerHTML = chartHTML;
+        }
+        
+        // Helper function to count completed workouts for a week
+        function getCompletedWorkoutsCount(weekIndex) {
+            const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+            let count = 0;
+            
+            for (let dayIndex = 0; dayIndex < trainingPlan[weekIndex].workouts.length; dayIndex++) {
+                const id = `week${weekIndex + 1}_day${dayIndex + 1}`;
+                if (savedProgress[id]) {
+                    count++;
+                }
+            }
+            
+            return count;
+        }
     </script>
 </body>
 </html>

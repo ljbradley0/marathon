@@ -204,7 +204,7 @@ function toggleCompleted(checkbox, weekNum) {
     saveProgress();
 }
 
-// Update progress bar for a specific week - fills from left to right
+// Update progress bar for a specific week
 function updateProgressBar(weekNum, weekPrefix = 'week') {
     const weekId = `${weekPrefix}${weekNum}`;
     const checkboxes = document.querySelectorAll(`#${weekId}-container input[type="checkbox"]`);
@@ -281,8 +281,17 @@ function loadProgress() {
         });
     }
     
+    // Special case for current week page
+    const currentWeekContainer = document.getElementById('current_week-container');
+    if (currentWeekContainer) {
+        updateProgressBar(1, 'current_');
+    }
+    
     // Initialize all progress bars for visible weeks
     for (let i = 1; i <= trainingPlan.length; i++) {
         updateProgressBar(i);
     }
 }
+
+// Debug logging to check if script loaded properly
+console.log("common.js loaded successfully!");
