@@ -1,0 +1,77 @@
+/* Design System Tokens based on Atlassian typography with Inter font */
+:root {
+  /* Typography Scale */
+  --font-family: 'Inter', sans-serif;
+  
+  /* Font Heading XXLarge */
+  --font-heading-xxlarge-size: 2rem; /* 32px */
+  --font-heading-xxlarge-line-height: 2.25rem; /* 36px */
+  --font-heading-xxlarge-weight: 700; /* Bold */
+  --font-heading-xxlarge-letter-spacing: -0.02em;
+  
+  /* Font Heading XLarge */
+  --font-heading-xlarge-size: 1.75rem; /* 28px */
+  --font-heading-xlarge-line-height: 2rem; /* 32px */
+  --font-heading-xlarge-weight: 700; /* Bold */
+  --font-heading-xlarge-letter-spacing: -0.02em;
+  
+  /* Font Heading Large */
+  --font-heading-large-size: 1.5rem; /* 24px */
+  --font-heading-large-line-height: 1.75rem; /* 28px */
+  --font-heading-large-weight: 700; /* Bold */
+  --font-heading-large-letter-spacing: -0.02em;
+  
+  /* Font Heading Medium */
+  --font-heading-medium-size: 1.25rem; /* 20px */
+  --font-heading-medium-line-height: 1.5rem; /* 24px */
+  --font-heading-medium-weight: 700; /* Bold */
+  --font-heading-medium-letter-spacing: -0.02em;
+  
+  /* Font Heading Small */
+  --font-heading-small-size: 1rem; /* 16px */
+  --font-heading-small-line-height: 1.25rem; /* 20px */
+  --font-heading-small-weight: 500; /* Medium/Regular */
+  --font-heading-small-letter-spacing: -0.02em;
+  
+  /* Font Heading XSmall */
+  --font-heading-xsmall-size: 0.875rem; /* 14px */
+  --font-heading-xsmall-line-height: 1.25rem; /* 20px */
+  --font-heading-xsmall-weight: 500; /* Medium/Regular */
+  --font-heading-xsmall-letter-spacing: -0.02em;
+  
+  /* Font Heading XXSmall */
+  --font-heading-xxsmall-size: 0.75rem; /* 12px */
+  --font-heading-xxsmall-line-height: 1rem; /* 16px */
+  --font-heading-xxsmall-weight: 500; /* Medium/Regular */
+  --font-heading-xxsmall-letter-spacing: -0.02em;
+  
+  /* Colors */
+  --color-text-primary: #1A0505;
+  --color-text-secondary: #969696;
+  --color-background: #F7F7F7;
+  --color-card-background: #FFFFFF;
+  --color-progress-empty: #E5E5E5;
+  --color-progress-filled: #72E4B0;
+  --color-shadow: rgba(0,
+ 0, 0, 0.05);
+  
+  /* Workout Type Colors */
+  --color-type-strength: #DB8043;
+  --color-type-easy: #43C4DB;
+  --color-type-long: #8A43DB;
+  --color-type-rest: #1A0505;
+  --color-type-tempo: #43C4DB;
+  --color-type-interval: #DB8043;
+  --color-type-zone: #43C4DB;
+  
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Border Radius */
+  --border-radius: 8px;
+}

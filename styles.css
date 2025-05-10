@@ -1,458 +1,320 @@
-/* Design System Variables */
-:root {
-    /* Font sizes */
-    --heading-large: 2rem;     /* 32px */
-    --heading-medium: 1.5rem;  /* 24px */
-    --heading-small: 1.25rem;  /* 20px */
-    --body-large: 1rem;        /* 16px */
-    --body-medium: 0.875rem;   /* 14px */
-    --body-small: 0.75rem;     /* 12px */
-  
-    /* Font weights */
-    --font-regular: 400;
-    --font-medium: 500;
-    --font-bold: 700;
-  
-    /* Colors */
-    --text-primary: #1A0505;
-    --text-secondary: #969696;
-    --background-subtle: #F7F7F7;
-    --background-neutral: #E5E5E5;
-    --surface: #FFFFFF;
-  
-    /* Brand Colors */
-    --color-salmon: #DB8043;
-    --color-teal: #43C4DB;
-    --color-purple: #8A43DB;
-    --color-dark: #1A0505;
-    --color-success: #72E4B0;
-    
-    /* Spacing */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-    
-    /* Border radius */
-    --border-radius: 8px;
-    
-    /* Transitions */
-    --transition-default: all 0.3s ease;
-    
-    /* Letter spacing */
-    --letter-spacing-heading: -0.02em;
-    --letter-spacing-body: -0.01em;
-  }
-  
-  body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--background-subtle);
-      color: var(--text-primary);
-      margin: 0;
-      padding: var(--spacing-md);
-      padding-bottom: 70px; /* Added to make room for bottom nav */
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  h1 {
-      text-align: center;
-      color: var(--text-primary);
-      margin-bottom: var(--spacing-sm);
-      font-size: var(--heading-large);
-      font-weight: var(--font-bold);
-      letter-spacing: var(--letter-spacing-heading);
-  }
-  
-  h2 {
-       font-weight: var(--font-medium);
-       font-size: var(--body-large);
-       margin-bottom: var(--spacing-md);
-      letter-spacing: var(--letter-spacing-heading);
-  }
-  
-  /* Bottom Navigation Bar Styles */
-  .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--surface);
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      padding: var(--spacing-sm) 0 var(--spacing-xs) 0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-  }
-  
-  .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-size: var(--body-small);
-      font-weight: var(--font-medium);
-      padding: var(--spacing-xs) var(--spacing-md);
-      border-radius: var(--border-radius);
-      transition: var(--transition-default);
-  }
-  
-  .nav-item.active {
-      color: var(--color-salmon);
-  }
-  
-  .nav-icon {
-      margin-bottom: var(--spacing-xs);
-      width: 24px;
-      height: 24px;
-  }
-  
-  .nav-icon path {
-      stroke: currentColor;
-      transition: var(--transition-default);
-  }
-  
-  .nav-label {
-      font-size: var(--body-small);
-  }
-  
-  /* Week Header Styles */
-  .week-header {
-      width: 100%;
-      background-color: transparent;
-      color: var(--text-primary);
-      padding: var(--spacing-md) var(--spacing-xs);
-      border: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: var(--body-large);
-      font-weight: var(--font-medium);
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  .week-header-banner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+/* Import or include design tokens at the top */
+@import url("design-system-tokens.css");
 
-  }
-  
-  .week-header-content {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-  }
-  
-  .chevron-icon {
-      transition: transform 0.3s ease;
-      color: var(--text-primary);
-  }
-  
-  .week-content {
-      overflow: hidden;
-      max-height: 2000px; /* Arbitrary large height */
-      transition: max-height 0.3s ease-in-out;
-      padding-top: var(--spacing-md);
-  }
-  
-  .week-content.collapsed {
-      max-height: 0;
-      padding-top: 0;
-  }
-  
-  .week-container {
-      margin-bottom: var(--spacing-xs);
-  }
-  
-  /* Rotate chevron when expanded */
-  .week-header[aria-expanded="true"] .chevron-icon {
-      transform: rotate(90deg);
-  }
-  
-  .week-distance {
-      font-size: var(--body-medium);
-      background-color: transparent;
-      padding: 0;
-      font-weight: var(--font-medium);
-      color: var(--text-secondary);
-  }
-  
-  /* Progress bar styling */
-  .progress-container {
-      margin: var(--spacing-sm) 0 var(--spacing-md) 0;
-      width: 100%;
-  }
-  
-  .progress-bars {
-      display: flex;
-      gap: 12px;
-      margin-bottom: var(--spacing-xs);
-  }
-  
-  .progress-segment {
-      flex: 1;
-      height: 8px;
-      background-color: var(--background-neutral);
-      border-radius: var(--border-radius);
-      transition: background-color 0.3s ease;
-  }
-  
-  .progress-segment.completed {
-      background-color: var(--color-success);
-  }
-  
-  .progress-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 var(--spacing-xs);
-      margin-top: var(--spacing-xs);
-  }
-  
-  .workouts-count, .distance-count {
-      font-size: var(--body-medium);
-      font-weight: var(--font-medium);
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  .workouts-count .label,
-  .distance-count .label {
-      color: var(--text-primary);
-  }
-  
-  .workouts-count .value,
-  .distance-count .value {
-      color: var(--text-secondary);
-      margin-left: var(--spacing-xs);
-  }
-  
-  /* Card Styles */
-  .days-container {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: var(--spacing-md);
-  }
-  
-  .day-card {
-      background-color: var(--surface);
-      border-radius: var(--border-radius);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      padding: var(--spacing-md);
-      width: 100%;
-      box-sizing: border-box;
-      transition: transform 0.2s;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-  }
-  
-  .day-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 8px;
-      border-radius: var(--border-radius) 0 0 var(--border-radius);
-  }
-  
-  .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--spacing-xs);
-  }
-  
-  .date-container {
-      color: var(--text-secondary);
-      font-size: var(--body-medium);
-      font-weight: var(--font-medium);
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  .checkbox-container {
-      display: flex;
-      align-items: center;
-  }
-  
-  .checkbox-container input {
-    transform: scale(1.5);
-    accent-color: var(--color-dark);
-    border: 2px solid var(--text-secondary);
+/* Use design tokens throughout the styles */
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    margin: 12px;
+    padding: var(--spacing-lg);
+    font-size: var(--font-heading-xsmall-size);
+    line-height: var(--font-heading-xsmall-line-height);
+    letter-spacing: var(--font-heading-xsmall-letter-spacing);
 }
-  
-  .workout-title {
-      font-weight: var(--font-medium);
-      font-size: var(--body-large);
-      margin-bottom: var(--spacing-xs);
-      color: var(--text-primary);
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  .workout-time {
-      font-size: var(--body-medium);
-      color: var(--text-secondary);
-      font-weight: var(--font-medium);
-      letter-spacing: var(--letter-spacing-body);
-  }
-  
-  .card-content {
-      display: flex;
-      flex-direction: column;
-  }
-  
-  /*
-  .completed {
-      opacity: 0.7;
-  } */
-  
-  /* Workout type indicators */
-  .strength::before { background-color: var(--color-salmon); }
-  .easy::before { background-color: var(--color-teal); }
-  .long::before { background-color: var(--color-purple); }
-  .rest::before { background-color: var(--color-dark); }
-  .tempo::before { background-color: var(--color-teal); }
-  .interval::before { background-color: var(--color-salmon); }
-  .zone::before { background-color: var(--color-teal); }
-  
-  /* Chart styles for home page */
-  .charts-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-  }
-  
-  .chart-card {
-      background-color: var(--surface);
-      border-radius: var(--border-radius);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      padding: var(--spacing-md);
-      text-align: center;
-  }
-  
-  .circle-chart-container {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-  
-  .circle-percent {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -60%);
-      font-size: var(--heading-small);
-      font-weight: var(--font-bold);
-      color: var(--text-primary);
-      letter-spacing: var(--letter-spacing-heading);
-  }
-  
-  .circle-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, 30%);
-      font-size: var(--body-medium);
-      color: var(--text-secondary);
-  }
-  
-  .bar-chart-container {
-      width: 100%;
-      padding: var(--spacing-sm) 0;
-  }
-  
-  .bar-chart-header {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: var(--spacing-sm);
-      font-size: var(--body-medium);
-      color: var(--text-secondary);
-  }
-  
-  .bar-chart-bar {
-      width: 100%;
-      height: 16px;
-      background-color: var(--background-neutral);
-      border-radius: 12px;
-      overflow: hidden;
-  }
-  
-  .bar-chart-progress {
-      height: 100%;
-      background-color: var(--color-success);
-      border-radius: 12px;
-      transition: width 0.5s ease;
-  }
-  
-  /* Media query for mobile devices */
-  @media (max-width: 768px) {
-      body {
-          padding: var(--spacing-md);
-          padding-bottom: 70px;
-      }
-  
-      h1 {
-          font-size: var(--heading-medium);
-          margin-bottom: var(--spacing-md);
-      }
-      
-      .week-header {
-          padding: var(--spacing-sm) var(--spacing-xs);
-      }
-  
-      .day-card {
-          padding: var(--spacing-md);
-      }
-      
-      .charts-container {
-          grid-template-columns: 1fr;
-      }
-      
-      .nav-item {
-          padding: var(--spacing-xs) var(--spacing-sm);
-      }
-      
-      .circle-chart-container {
-          height: 180px;
-      }
-  }
-  
-  /* Media query for very small screens */
-  @media (max-width: 360px) {
-      body {
-          padding: var(--spacing-sm);
-          padding-bottom: 70px;
-      }
-      
-      h1 {
-          font-size: var(--heading-small);
-          margin-bottom: var(--spacing-sm);
-      }
-      
-      .nav-item {
-          padding: 6px 8px;
-      }
-      
-      .nav-label {
-          font-size: calc(var(--body-small) - 1px);
-      }
-      
-      .nav-icon {
-          width: 20px;
-          height: 20px;
-      }
-      
-      .day-card {
-          padding: 14px;
-      }
-  }
+
+/* Additional styles for the updated layout */
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.app-description {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-secondary);
+    font-size: var(--font-heading-small-size);
+    line-height: 1.5;
+}
+
+/* Atlassian Typography System with Inter font */
+.font-heading-xxlarge, h1 {
+    font-weight: var(--font-heading-xxlarge-weight);
+    font-size: var(--font-heading-xxlarge-size);
+    line-height: var(--font-heading-xxlarge-line-height);
+    letter-spacing: var(--font-heading-xxlarge-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-xlarge, h2 {
+    font-weight: var(--font-heading-xlarge-weight);
+    font-size: var(--font-heading-xlarge-size);
+    line-height: var(--font-heading-xlarge-line-height);
+    letter-spacing: var(--font-heading-xlarge-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-large, h3 {
+    font-weight: var(--font-heading-large-weight);
+    font-size: var(--font-heading-large-size);
+    line-height: var(--font-heading-large-line-height);
+    letter-spacing: var(--font-heading-large-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-medium, h4 {
+    font-weight: var(--font-heading-medium-weight);
+    font-size: var(--font-heading-medium-size);
+    line-height: var(--font-heading-medium-line-height);
+    letter-spacing: var(--font-heading-medium-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-small, h5 {
+    font-weight: var(--font-heading-small-weight);
+    font-size: var(--font-heading-small-size);
+    line-height: var(--font-heading-small-line-height);
+    letter-spacing: var(--font-heading-small-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-xsmall, h6 {
+    font-weight: var(--font-heading-xsmall-weight);
+    font-size: var(--font-heading-xsmall-size);
+    line-height: var(--font-heading-xsmall-line-height);
+    letter-spacing: var(--font-heading-xsmall-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+.font-heading-xxsmall {
+    font-weight: var(--font-heading-xxsmall-weight);
+    font-size: var(--font-heading-xxsmall-size);
+    line-height: var(--font-heading-xxsmall-line-height);
+    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+    color: var(--color-text-primary);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Week Header Styles */
+.week-header {
+    width: 100%;
+    background-color: transparent;
+    color: var(--color-text-primary);
+    padding: var(--spacing-md) var(--spacing-xxs);
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: var(--font-heading-small-size);
+    font-weight: var(--font-heading-small-weight);
+    line-height: var(--font-heading-small-line-height);
+    letter-spacing: var(--font-heading-small-letter-spacing);
+}
+
+.week-header-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.chevron-icon {
+    transition: transform 0.3s ease;
+    color: var(--color-text-primary);
+}
+
+.week-content {
+    overflow: hidden;
+    max-height: 2000px; /* Arbitrary large height */
+    transition: max-height 0.3s ease-in-out;
+    padding-top: var(--spacing-md);
+}
+
+.week-content.collapsed {
+    max-height: 0;
+    padding-top: 0;
+}
+
+.week-container {
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Rotate chevron when expanded */
+.week-header[aria-expanded="true"] .chevron-icon {
+    transform: rotate(90deg);
+}
+
+.week-distance {
+    font-size: var(--font-heading-xsmall-size);
+    background-color: transparent;
+    padding: 0;
+    font-weight: var(--font-heading-xsmall-weight);
+    color: var(--color-text-secondary);
+    line-height: var(--font-heading-xsmall-line-height);
+    letter-spacing: var(--font-heading-xsmall-letter-spacing);
+}
+
+/* Progress bar styling */
+.progress-container {
+    margin: var(--spacing-sm) 0 var(--spacing-md) 0;
+    width: 100%;
+}
+
+.progress-bars {
+    display: flex;
+    gap: 6px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.progress-segment {
+    flex: 1;
+    height: 8px;
+    background-color: var(--color-progress-empty);
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+}
+
+.progress-segment.completed {
+    background-color: var(--color-progress-filled);
+}
+
+.progress-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--spacing-xxs);
+    margin-top: var(--spacing-xs);
+}
+
+.workouts-count, .distance-count {
+    font-size: var(--font-heading-xxsmall-size);
+    font-weight: var(--font-heading-xxsmall-weight);
+    line-height: var(--font-heading-xxsmall-line-height);
+    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+}
+
+.workouts-count .label,
+.distance-count .label {
+    color: var(--color-text-primary);
+}
+
+.workouts-count .value,
+.distance-count .value {
+    color: var(--color-text-secondary);
+    margin-left: var(--spacing-xxs);
+}
+
+/* Card Styles */
+.days-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: var(--spacing-md);
+}
+
+.day-card {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px var(--color-shadow);
+    padding: var(--spacing-md);
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.day-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xxs);
+}
+
+.date-container {
+    color: var(--color-text-secondary);
+    font-size: var(--font-heading-xxsmall-size);
+    font-weight: var(--font-heading-xxsmall-weight);
+    line-height: var(--font-heading-xxsmall-line-height);
+    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input {
+    transform: scale(1.5);
+    accent-color: var(--color-text-primary);
+    border: 2px solid var(--color-text-secondary);
+}
+
+.workout-title {
+    font-weight: var(--font-heading-xsmall-weight);
+    font-size: var(--font-heading-xsmall-size);
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-primary);
+    line-height: var(--font-heading-xsmall-line-height);
+    letter-spacing: var(--font-heading-xsmall-letter-spacing);
+}
+
+.workout-time {
+    font-size: var(--font-heading-xxsmall-size);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-heading-xxsmall-weight);
+    line-height: var(--font-heading-xxsmall-line-height);
+    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.completed {
+    opacity: 0.7;
+}
+
+/* Workout type indicators - Using CSS variables */
+.strength::before { background-color: var(--color-type-strength); }
+.easy::before { background-color: var(--color-type-easy); }
+.long::before { background-color: var(--color-type-long); }
+.rest::before { background-color: var(--color-type-rest); }
+.tempo::before { background-color: var(--color-type-tempo); }
+.interval::before { background-color: var(--color-type-interval); }
+.zone::before { background-color: var(--color-type-zone); }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    .app-container {
+        padding: var(--spacing-md);
+    }
+
+    h1 {
+        font-size: var(--font-heading-large-size);
+        margin-bottom: var(--spacing-md);
+        line-height: var(--font-heading-large-line-height);
+    }
+
+    .week-header {
+        padding: var(--spacing-sm) var(--spacing-xxs);
+        font-size: var(--font-heading-xsmall-size);
+        line-height: var(--font-heading-xsmall-line-height);
+    }
+
+    .day-card {
+        padding: var(--spacing-md);
+    }
+}
