@@ -190,7 +190,7 @@
   
   .progress-bars {
       display: flex;
-      gap: 6px;
+      gap: 12px;
       margin-bottom: var(--spacing-xs);
   }
   
