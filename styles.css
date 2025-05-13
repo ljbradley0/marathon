@@ -1,7 +1,87 @@
-/* Import or include design tokens at the top */
-@import url("design-system-tokens.css");
+/* Add these typography classes to your styles.css file */
 
-/* Use design tokens throughout the styles */
+/* Apply default body style to the whole page */
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-body-medium-size);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+    font-weight: var(--font-body-medium-weight);
+}
+
+/* Body Typography Classes */
+.font-body-large {
+    font-size: var(--font-body-large-size);
+    line-height: var(--font-body-large-line-height);
+    letter-spacing: var(--font-body-large-letter-spacing);
+    font-weight: var(--font-body-large-weight);
+}
+
+.font-body-medium {
+    font-size: var(--font-body-medium-size);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+    font-weight: var(--font-body-medium-weight);
+}
+
+.font-body-small {
+    font-size: var(--font-body-small-size);
+    line-height: var(--font-body-small-line-height);
+    letter-spacing: var(--font-body-small-letter-spacing);
+    font-weight: var(--font-body-small-weight);
+}
+
+/* Inline Code Typography */
+.font-code, code {
+    font-family: var(--font-code-family);
+    font-size: var(--font-code-size);
+    line-height: var(--font-code-line-height);
+    letter-spacing: var(--font-code-letter-spacing);
+    font-weight: var(--font-code-weight);
+    background-color: #F4F5F7;
+    padding: 0 0.2em;
+    border-radius: 3px;
+}
+
+/* Font Weight Utility Classes */
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+
+.font-weight-medium {
+    font-weight: 500 !important;
+}
+
+.font-weight-regular {
+    font-weight: 400 !important;
+}
+
+/* Text Color Utility Classes */
+.text-primary {
+    color: var(--color-text-primary) !important;
+}
+
+.text-secondary {
+    color: var(--color-text-secondary) !important;
+}
+
+.text-subtle {
+    color: var(--color-text-subtle) !important;
+}
+
+.text-link {
+    color: var(--color-text-link) !important;
+}
+
+.text-inverse {
+    color: var(--color-text-inverse) !important;
+}
+
+/*  duplicate body style */
 body {
     font-family: var(--font-family);
     background-color: var(--color-background);
@@ -17,7 +97,7 @@ body {
 .app-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-xs);
 }
 
 .app-description {
@@ -62,10 +142,11 @@ body {
 }
 
 .font-heading-small, h5 {
-    font-weight: var(--font-heading-small-weight);
-    font-size: var(--font-heading-small-size);
-    line-height: var(--font-heading-small-line-height);
-    letter-spacing: var(--font-heading-small-letter-spacing);
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-heading-medium-weight);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+    color: var(--color-text-primary);
     color: var(--color-text-primary);
 }
 
@@ -86,7 +167,7 @@ body {
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--spacing-xl);
 }
 
@@ -100,11 +181,11 @@ h1 {
     right: 0;
     background-color: var(--color-card-background);
     padding: var(--spacing-xs) 0;
-    box-shadow: 0 -2px 4px var(--color-shadow);
+    box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
     z-index: 10;
-  }
-  
-  .nav-item {
+}
+
+.nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,24 +193,27 @@ h1 {
     color: var(--color-text-secondary);
     font-size: var(--font-heading-xxsmall-size);
     padding: var(--spacing-xs);
-  }
-  
-  .nav-item.active {
+}
+
+.nav-item.active {
     color: var(--color-text-primary);
-  }
-  
-  .nav-icon {
+}
+
+.nav-icon {
     margin-bottom: var(--spacing-xxs);
-  }
-  
-  .nav-label {
+}
+
+.nav-label {
     font-size: var(--font-heading-xxsmall-size);
-  }
-  
-  /* Add more space at the bottom of the page to accommodate the fixed nav */
-  .app-container {
-    padding-bottom: 80px;
-  }
+}
+
+/* Add more space at the bottom of the page to accommodate the fixed nav */
+.app-container {
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--spacing-xxl) + var(--spacing-xl));
+    max-width: 800px;
+    margin: 0 auto;
+}
 
 /* Week Header Styles */
 .week-header {
@@ -162,9 +246,8 @@ h1 {
 
 .week-content {
     overflow: hidden;
-    max-height: 2000px; /* Arbitrary large height */
+    max-height: 2000px;
     transition: max-height 0.3s ease-in-out;
-    padding-top: var(--spacing-md);
 }
 
 .week-content.collapsed {
@@ -186,7 +269,7 @@ h1 {
     background-color: transparent;
     padding: 0;
     font-weight: var(--font-heading-xsmall-weight);
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     line-height: var(--font-heading-xsmall-line-height);
     letter-spacing: var(--font-heading-xsmall-letter-spacing);
 }
@@ -199,13 +282,13 @@ h1 {
 
 .progress-bars {
     display: flex;
-    gap: 6px;
+    gap: var(--spacing-xxs);
     margin-bottom: var(--spacing-xs);
 }
 
 .progress-segment {
     flex: 1;
-    height: 8px;
+    height: var(--spacing-xs);
     background-color: var(--color-progress-empty);
     border-radius: var(--border-radius);
     transition: background-color 0.3s ease;
@@ -213,6 +296,7 @@ h1 {
 
 .progress-segment.completed {
     background-color: var(--color-progress-filled);
+    opacity: 1;
 }
 
 .progress-footer {
@@ -245,18 +329,17 @@ h1 {
 .days-container {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--spacing-sm);
     margin-top: var(--spacing-md);
 }
 
 .day-card {
     background-color: var(--color-card-background);
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 4px var(--color-shadow);
+    box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
     padding: var(--spacing-md);
     width: 100%;
     box-sizing: border-box;
-    transition: transform 0.2s;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -268,7 +351,7 @@ h1 {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 8px;
+    width: var(--spacing-xs);
     border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
 
@@ -276,7 +359,6 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: var(--spacing-xxs);
 }
 
 .date-container {
@@ -299,20 +381,51 @@ h1 {
 }
 
 .workout-title {
-    font-weight: var(--font-heading-xsmall-weight);
-    font-size: var(--font-heading-xsmall-size);
-    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-heading-medium-weight);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
     color: var(--color-text-primary);
-    line-height: var(--font-heading-xsmall-line-height);
-    letter-spacing: var(--font-heading-xsmall-letter-spacing);
 }
 
+.workout-type {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+    position: relative;
+    padding-left: var(--spacing-md);  /* Space for the color indicator */
+}
+
+/* Color indicators using ::before */
+.workout-type::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
+    border-radius: 50%;
+}
+
+.strength::before { background-color: var(--color-type-strength); }
+.easy::before { background-color: var(--color-type-easy); }
+.long::before { background-color: var(--color-type-long); }
+.rest::before { background-color: var(--color-type-rest); }
+.tempo::before { background-color: var(--color-type-tempo); }
+.interval::before { background-color: var(--color-type-interval); }
+.zone::before { background-color: var(--color-type-zone); }
+
 .workout-time {
-    font-size: var(--font-heading-xxsmall-size);
-    color: var(--color-text-secondary);
-    font-weight: var(--font-heading-xxsmall-weight);
-    line-height: var(--font-heading-xxsmall-line-height);
-    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+    color: var(--color-text-primary);
 }
 
 .card-content {
@@ -320,11 +433,28 @@ h1 {
     flex-direction: column;
 }
 
-.completed {
-    opacity: 0.7;
+/* Workout type indicators - Using CSS variables */
+.workout-type {
+    display: inline-block;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+    position: relative;
+    padding-left: var(--spacing-md);  /* Space for the color indicator */
 }
 
-/* Workout type indicators - Using CSS variables */
+/* Color indicators using ::before */
+.workout-type::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
+    border-radius: 50%;
+}
+
 .strength::before { background-color: var(--color-type-strength); }
 .easy::before { background-color: var(--color-type-easy); }
 .long::before { background-color: var(--color-type-long); }
@@ -345,7 +475,7 @@ h1 {
 
     h1 {
         font-size: var(--font-heading-large-size);
-        margin-bottom: var(--spacing-md);
+        margin-bottom: var(--spacing-xs);
         line-height: var(--font-heading-large-line-height);
     }
 
@@ -363,24 +493,70 @@ h1 {
 /* Dashboard Chart Styles */
 .charts-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
+}
+
+.charts-container > :first-child {
+    grid-column: 1 / -1;
 }
 
 .chart-card {
     background-color: var(--color-card-background);
     border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
+}
+
+/* Special styling for the total progress chart */
+.chart-card:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+}
+
+.chart-card:first-child .chart-content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: var(--spacing-lg);
+    align-items: left;
+}
+
+.chart-card:first-child .circle-chart {
+    justify-self: center;
+}
+
+.chart-card:first-child .chart-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+}
+
+.chart-card:first-child .chart-label {
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+}
+
+.chart-card:first-child .chart-stats {
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
 }
 
 .chart-card h2 {
     margin-top: 0;
     margin-bottom: var(--spacing-md);
-    text-align: center;
+    text-align: left;
+}
+
+.chart-card:first-child h2 {
+    margin: 0;
+    text-align: left;
 }
 
 /* Circle Chart Styles */
@@ -389,7 +565,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 200px;
 }
 
 .circle-chart-container {
@@ -404,8 +580,8 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -60%);
-    font-size: var(--font-heading-xlarge-size);
-    font-weight: var(--font-heading-xlarge-weight);
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
     color: var(--color-text-primary);
 }
 
@@ -415,6 +591,25 @@ h1 {
     left: 50%;
     transform: translate(-50%, 40%);
     font-size: var(--font-heading-xxsmall-size);
+    color: var(--color-text-secondary);
+}
+
+.chart-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.chart-title {
+    font-size: var(--font-heading-small-size);
+    font-weight: var(--font-heading-small-weight);
+    color: var(--color-text-primary);
+    margin: 0;
+    text-align: left;
+}
+
+.chart-stats {
+    font-size: var(--font-heading-small-size);
     color: var(--color-text-secondary);
 }
 
@@ -437,7 +632,7 @@ h1 {
 
 .bar-chart-bar {
     width: 100%;
-    height: 16px;
+    height: var(--spacing-md);
     background-color: var(--color-progress-empty);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -445,7 +640,7 @@ h1 {
 
 .bar-chart-progress {
     height: 100%;
-    background-color: var(--color-type-easy);
+    background-color: var(--color-progress-filled);
     border-radius: var(--border-radius);
     transition: width 0.5s ease;
 }
@@ -454,7 +649,189 @@ h1 {
 .error-message {
     padding: var(--spacing-md);
     background-color: #FFF0F0;
-    border-left: 4px solid #FF5630;
+    border-left: var(--spacing-xxs) solid #FF5630;
     margin: var(--spacing-md) 0;
     color: var(--color-text-primary);
+}
+
+/* Workout Detail Page Styles */
+.header {
+    background-color: var(--color-card-background);
+    padding: var(--spacing-md);
+    box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-text-primary);
+}
+
+.header-title {
+    font-size: var(--font-heading-medium-size);
+    font-weight: var(--font-heading-medium-weight);
+    line-height: var(--font-heading-medium-line-height);
+    letter-spacing: var(--font-heading-medium-letter-spacing);
+    color: var(--color-text-primary);
+    margin: 0;
+    flex: 1;
+}
+
+.workout-container {
+    padding: var(--spacing-md);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Workout meta section */
+.workout-meta {
+    margin-bottom: var(--spacing-lg);  /* Space between this section and the next */
+}
+
+.workout-date {
+    color: var(--color-text-secondary);
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    margin-bottom: var(--spacing-xs);  /* Space between date and title */
+}
+
+.workout-detail-title {
+    font-size: var(--font-heading-medium-size);
+    font-weight: var(--font-heading-medium-weight);
+    line-height: var(--font-heading-medium-line-height);
+    letter-spacing: var(--font-heading-medium-letter-spacing);
+    margin: var(--spacing-xs) 0;  /* Equal top and bottom margins */
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
+.workout-type {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+    position: relative;
+    padding-left: var(--spacing-md);  /* Space for the color indicator */
+}
+
+/* Color indicators using ::before */
+.workout-type::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
+    border-radius: 50%;
+}
+
+.strength::before { background-color: var(--color-type-strength); }
+.easy::before { background-color: var(--color-type-easy); }
+.long::before { background-color: var(--color-type-long); }
+.rest::before { background-color: var(--color-type-rest); }
+.tempo::before { background-color: var(--color-type-tempo); }
+.interval::before { background-color: var(--color-type-interval); }
+.zone::before { background-color: var(--color-type-zone); }
+
+.section-title {
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    margin-top: var(--spacing-lg);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+}
+
+.structure-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.structure-list li {
+    background-color: var(--color-card-background);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-body-medium-size);
+}
+
+.coaching-notes {
+    background-color: var(--color-card-background);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+    line-height: 1.5;
+    font-size: var(--font-body-medium-size);
+}
+
+/* Make day cards clickable with visual feedback */
+.day-card {
+    cursor: pointer;
+}
+
+/* Ensure checkbox still works without triggering card click */
+.checkbox-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .workout-container {
+        padding: var(--spacing-md);
+    }
+    
+    .workout-detail-title {
+        font-size: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+    }
+    
+    .structure-list li, 
+    .coaching-notes {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* Apply opacity only to completed day cards */
+.day-card.completed {
+    opacity: 0.7;
+}
+
+.workout-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+}
+
+/* Only show bullet point in workout detail page */
+.workout-meta .workout-time::before {
+    content: '·';
+    margin: 0 var(--spacing-xxs);
+    color: var(--color-text-secondary);
+}
+
+.workout-type {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+    position: relative;
+    padding-left: var(--spacing-md);  /* Space for the color indicator */
+}
+
+/* Current date styling */
+.current-date {
+    margin-bottom: var(--spacing-xs);
 }

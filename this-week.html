@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="app-container">
-        <h1 class="font-heading-xlarge">This week</h1>
+        <h1 class="font-heading-large">This week</h1>
 
         <div id="current-week-container">
             <!-- Current week content will be rendered here -->
@@ -63,15 +63,16 @@
             function renderFirstWeek() {
                 const startDate = new Date('2025-06-02'); // Monday, June 2nd, 2025
                 const currentWeekIndex = 0;
+                const weekNum = currentWeekIndex + 1;
                 const currentWeek = trainingPlan[currentWeekIndex];
-                const weekId = `current_week`;
+                const weekId = `week${weekNum}`; // Changed to match the expected format
                 
                 // Calculate week dates starting from Monday
                 const weekDates = generateDatesForWeek(startDate);
                 
                 // Update week header
                 document.getElementById('current-week-date').textContent = 
-                    `Week ${currentWeekIndex + 1}: ${formatDate(startDate)}`;
+                    `Week ${weekNum}: ${formatDate(startDate)}`;
                 document.getElementById('current-week-distance').textContent = 
                     currentWeek.weekDistance;
                 
@@ -99,19 +100,19 @@
                             <div class="days-container">
                 `;
 
-                // Generate day cards
+                // Generate day cards with onclick handler to navigate to detail page
                 weekDates.forEach((date, dayIndex) => {
                     const workout = currentWeek.workouts[dayIndex];
-                    const id = `week${currentWeekIndex + 1}_day${dayIndex + 1}`;
+                    const id = `week${weekNum}_day${dayIndex + 1}`;
                     
                     weekHTML += `
-                        <div class="day-card ${workout.type}">
+                        <div class="day-card ${workout.type}" onclick="navigateToWorkout(${weekNum}, ${dayIndex})">
                             <div class="card-header">
                                 <div class="date-container">
                                     ${formatDate(date)}
                                 </div>
-                                <div class="checkbox-container">
-                                    <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${currentWeekIndex + 1})">
+                                <div class="checkbox-container" onclick="event.stopPropagation()">
+                                    <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${weekNum})">
                                 </div>
                             </div>
                             <div class="card-content">
@@ -129,10 +130,10 @@
                 `;
 
                 // Append week content after the header
-                document.getElementById('current-week-container').innerHTML += weekHTML;
+                document.getElementById('current-week-container').innerHTML = weekHTML;
                 
                 // Update progress bar for first week
-                updateProgressBar(currentWeekIndex + 1);
+                updateProgressBar(weekNum);
             }
             
             // Helper function to generate dates for a week (Monday first)
@@ -140,7 +141,7 @@
                 const dates = [];
                 const currentDate = new Date(startDate);
                 
-                for (let day = 0; day < 7; day++) {
+                for (let i = 0; i < 7; i++) {
                     dates.push(new Date(currentDate));
                     currentDate.setDate(currentDate.getDate() + 1);
                 }

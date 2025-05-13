@@ -1,8 +1,9 @@
 /* Design System Tokens based on Atlassian typography with Inter font */
 :root {
-  /* Typography Scale */
+  /* Typography Scale - Base Font */
   --font-family: 'Inter', sans-serif;
   
+  /* Heading Typography */
   /* Font Heading XXLarge */
   --font-heading-xxlarge-size: 2rem; /* 32px */
   --font-heading-xxlarge-line-height: 2.25rem; /* 36px */
@@ -45,15 +46,43 @@
   --font-heading-xxsmall-weight: 500; /* Medium/Regular */
   --font-heading-xxsmall-letter-spacing: -0.02em;
   
+  /* Body Typography - Based on Atlassian Design System */
+  /* Paragraph / Body - Large */
+  --font-body-large-size: 1rem; /* 16px */
+  --font-body-large-line-height: 1.5rem; /* 24px */
+  --font-body-large-weight: 400; /* Regular */
+  --font-body-large-letter-spacing: -0.006em;
+  
+  /* Paragraph / Body - Medium (Default) */
+  --font-body-medium-size: 0.875rem; /* 14px */
+  --font-body-medium-line-height: 1.25rem; /* 20px */
+  --font-body-medium-weight: 400; /* Regular */
+  --font-body-medium-letter-spacing: -0.003em;
+  
+  /* Paragraph / Body - Small */
+  --font-body-small-size: 0.75rem; /* 12px */
+  --font-body-small-line-height: 1rem; /* 16px */
+  --font-body-small-weight: 400; /* Regular */
+  --font-body-small-letter-spacing: 0;
+  
+  /* Paragraph / Body - Inline Code */
+  --font-code-size: 0.875rem; /* 14px */
+  --font-code-line-height: 1.25rem; /* 20px */
+  --font-code-weight: 400; /* Regular */
+  --font-code-letter-spacing: 0;
+  --font-code-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', monospace;
+  
   /* Colors */
   --color-text-primary: #1A0505;
   --color-text-secondary: #969696;
+  --color-text-subtle: #6B778C;
+  --color-text-link: #0052CC;
+  --color-text-inverse: #FFFFFF;
   --color-background: #F7F7F7;
   --color-card-background: #FFFFFF;
   --color-progress-empty: #E5E5E5;
   --color-progress-filled: #72E4B0;
-  --color-shadow: rgba(0,
- 0, 0, 0.05);
+  --color-shadow: rgba(0, 0, 0, 0.05);
   
   /* Workout Type Colors */
   --color-type-strength: #DB8043;
@@ -71,7 +100,8 @@
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
+  --spacing-xxl: 48px;
   
   /* Border Radius */
-  --border-radius: 16px;
+  --border-radius: 8px;
 }
