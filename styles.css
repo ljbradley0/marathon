@@ -1,3 +1,17 @@
+/* Modern CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Remove default styles from headings */
+h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+}
+
 /* Add these typography classes to your styles.css file */
 
 /* Apply default body style to the whole page */
@@ -209,7 +223,7 @@ h1 {
 
 /* Add more space at the bottom of the page to accommodate the fixed nav */
 .app-container {
-    padding: var(--spacing-md);
+    padding: var(--spacing-xs);
     padding-bottom: calc(var(--spacing-xxl) + var(--spacing-xl));
     max-width: 800px;
     margin: 0 auto;
@@ -469,10 +483,6 @@ h1 {
         padding: 0;
     }
 
-    .app-container {
-        padding: var(--spacing-md);
-    }
-
     h1 {
         font-size: var(--font-heading-large-size);
         margin-bottom: var(--spacing-xs);
@@ -658,7 +668,6 @@ h1 {
 .header {
     background-color: var(--color-card-background);
     padding: var(--spacing-md);
-    box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
@@ -697,9 +706,9 @@ h1 {
 
 .workout-date {
     color: var(--color-text-secondary);
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    margin-bottom: var(--spacing-xs);  /* Space between date and title */
+    font-size: var(--font-body-xxs-size);
+    font-weight: var(--font-body-xxs-weight);
+    margin-bottom: var(--spacing-xxs);  /* Space between date and title */
 }
 
 .workout-detail-title {
@@ -744,15 +753,16 @@ h1 {
 
 .section-title {
     font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    margin-top: var(--spacing-lg);
+    font-weight: var(--font-heading-medium-weight);
+    line-height: var(--font-body-medium-line-height);
     letter-spacing: var(--font-body-medium-letter-spacing);
+    margin-bottom: var(--spacing-xs);
 }
 
 .structure-list {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin-bottom: var(--spacing-lg);
 }
 
 .structure-list li {
@@ -767,7 +777,6 @@ h1 {
     background-color: var(--color-card-background);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
-    margin-top: var(--spacing-md);
     line-height: 1.5;
     font-size: var(--font-body-medium-size);
 }
@@ -834,4 +843,11 @@ h1 {
 /* Current date styling */
 .current-date {
     margin-bottom: var(--spacing-xs);
+}
+
+.heading-1 {
+    font-size: var(--font-heading-large-size);
+    line-height: var(--font-heading-large-line-height);
+    font-weight: var(--font-heading-large-weight);
+    letter-spacing: var(--font-heading-large-letter-spacing);
 }
