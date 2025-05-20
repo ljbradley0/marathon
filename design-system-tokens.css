@@ -1,7 +1,7 @@
-/* Design System Tokens based on Atlassian typography with Inter font */
+/* Design System Tokens with Josefin Sans font */
 :root {
   /* Typography Scale - Base Font */
-  --font-family: 'Inter', sans-serif;
+  --font-family: 'Josefin Sans', sans-serif;
   
   /* Heading Typography */
   /* Font Heading XXLarge */
@@ -46,7 +46,7 @@
   --font-heading-xxsmall-weight: 500; /* Medium/Regular */
   --font-heading-xxsmall-letter-spacing: -0.02em;
   
-  /* Body Typography - Based on Atlassian Design System */
+  /* Body Typography */
   /* Paragraph / Body - Large */
   --font-body-large-size: 1rem; /* 16px */
   --font-body-large-line-height: 1.5rem; /* 24px */
@@ -73,13 +73,38 @@
   --font-code-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', monospace;
   
   /* Colors */
-  --color-text-primary: #1A0505;
+  --color-text: #1A0505;
+  --color-text-primary: var(--color-text);
   --color-text-secondary: #969696;
   --color-text-subtle: #6B778C;
   --color-text-link: #0052CC;
   --color-text-inverse: #FFFFFF;
-  --color-background: #F7F7F7;
-  --color-card-background: #FFFFFF;
+  
+  /* Icon Colors */
+  --color-icon-default: #1A0505;
+  --color-icon-subtle: #969696;
+  
+  /* Surfaces */
+  --surface-default: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --surface-sunken: #F7F7F7;
+  --surface-input: var(--surface-default);
+  
+  /* Border Colors */
+  --border-color-default: #E5E5E5;
+  --border-color-focus: var(--color-text-link);
+  --border-color-hover: #C1C7D0;
+  
+  /* Border Styles */
+  --border-width-default: 1px;
+  --border-style-default: solid;
+  --border-default: var(--border-width-default) var(--border-style-default) var(--border-color-default);
+  
+  /* Background Colors */
+  --color-background: var(--surface-sunken);
+  --color-card-background: var(--surface-raised);
+  
+  /* Progress Colors */
   --color-progress-empty: #E5E5E5;
   --color-progress-filled: #72E4B0;
   --color-shadow: rgba(0, 0, 0, 0.05);

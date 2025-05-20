@@ -308,10 +308,14 @@ function toggleWeek(button) {
 // Toggle completed class when checkbox is checked
 function toggleCompleted(checkbox, weekNum) {
     const card = checkbox.closest('.day-card');
+    const checkboxContainer = checkbox.closest('.checkbox-container');
+    
     if (checkbox.checked) {
         card.classList.add('completed');
+        checkboxContainer.classList.add('checked');
     } else {
         card.classList.remove('completed');
+        checkboxContainer.classList.remove('checked');
     }
     
     updateProgressBar(weekNum);
@@ -362,8 +366,15 @@ function updateProgressBar(weekNum) {
 // Save progress to local storage
 function saveProgress() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const progress = {};
+    let progress = {};
     
+    // Try to load existing progress first
+    const existingProgress = localStorage.getItem('marathonProgress');
+    if (existingProgress) {
+        progress = JSON.parse(existingProgress);
+    }
+    
+    // Update with current checkbox states
     checkboxes.forEach(checkbox => {
         progress[checkbox.id] = checkbox.checked;
     });
@@ -378,21 +389,35 @@ function loadProgress() {
     if (savedProgress) {
         const progress = JSON.parse(savedProgress);
         
+        // First, mark all checkboxes based on saved state
         Object.keys(progress).forEach(id => {
             const checkbox = document.getElementById(id);
             if (checkbox) {
                 checkbox.checked = progress[id];
                 if (progress[id]) {
-                    checkbox.closest('.day-card').classList.add('completed');
-                }
-                
-                // Extract week number from the ID (format: weekX_dayY)
-                const weekMatch = id.match(/week(\d+)_/);
-                if (weekMatch && weekMatch[1]) {
-                    const weekNum = parseInt(weekMatch[1]);
-                    updateProgressBar(weekNum);
+                    const card = checkbox.closest('.day-card');
+                    const checkboxContainer = checkbox.closest('.checkbox-container');
+                    if (card) {
+                        card.classList.add('completed');
+                    }
+                    if (checkboxContainer) {
+                        checkboxContainer.classList.add('checked');
+                    }
                 }
             }
+        });
+        
+        // Then update all progress bars
+        const weekNums = new Set();
+        Object.keys(progress).forEach(id => {
+            const weekMatch = id.match(/week(\d+)_/);
+            if (weekMatch && weekMatch[1]) {
+                weekNums.add(parseInt(weekMatch[1]));
+            }
+        });
+        
+        weekNums.forEach(weekNum => {
+            updateProgressBar(weekNum);
         });
     }
     
@@ -465,7 +490,7 @@ function initializeWorkoutDetailPage() {
     workoutTypeElement.textContent = getWorkoutTypeName(workoutData.type);
     workoutTypeElement.className = `workout-type ${workoutData.type}`;
     
-    // Update time without any prefix
+       // Update time without any prefix
     document.querySelector('.workout-time').textContent = workoutData.time;
     
     // Populate structure list

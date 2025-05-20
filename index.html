@@ -6,14 +6,14 @@
     <title>Marathon Training Plan - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
-        <div class="current-date font-body-medium text-secondary" id="current-date"></div>
-        <h1 class="font-heading-large">Summary</h1>
+        <time class="header-date" id="current-date" datetime=""></time>
+        <h1 class="page-heading font-heading-large">Summary</h1>
         
 
         <main>
@@ -94,7 +94,9 @@
                 // Set current date
                 const today = new Date();
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+                const currentDateElement = document.getElementById('current-date');
+                currentDateElement.textContent = today.toLocaleDateString('en-US', options);
+                currentDateElement.setAttribute('datetime', today.toISOString().split('T')[0]);
                 
                 // Render all charts
                 renderProgressChart();

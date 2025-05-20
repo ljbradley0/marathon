@@ -80,7 +80,7 @@ body {
 }
 
 .text-secondary {
-    color: var(--color-text-secondary) !important;
+    color: var(--color-text-subtle) !important;
 }
 
 .text-subtle {
@@ -117,12 +117,12 @@ body {
 .app-description {
     text-align: center;
     margin-bottom: var(--spacing-xl);
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
     font-size: var(--font-heading-small-size);
     line-height: 1.5;
 }
 
-/* Atlassian Typography System with Inter font */
+/* Typography System with Inter font */
 .font-heading-xxlarge, h1 {
     font-weight: var(--font-heading-xxlarge-weight);
     font-size: var(--font-heading-xxlarge-size);
@@ -180,9 +180,10 @@ body {
     color: var(--color-text-primary);
 }
 
-h1 {
-    text-align: left;
-    margin-bottom: var(--spacing-xl);
+/* Page Heading */
+.page-heading {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
 }
 
 /* Bottom Navigation Styles */
@@ -204,13 +205,12 @@ h1 {
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: var(--color-text-secondary);
-    font-size: var(--font-heading-xxsmall-size);
+    color: var(--color-icon-subtle);
     padding: var(--spacing-xs);
 }
 
 .nav-item.active {
-    color: var(--color-text-primary);
+    color: var(--color-icon-default);
 }
 
 .nav-icon {
@@ -218,7 +218,10 @@ h1 {
 }
 
 .nav-label {
-    font-size: var(--font-heading-xxsmall-size);
+    font-size: var(--font-body-small-size);
+    line-height: var(--font-body-small-line-height);
+    letter-spacing: var(--font-body-small-letter-spacing);
+    font-weight: var(--font-body-small-weight);
 }
 
 /* Add more space at the bottom of the page to accommodate the fixed nav */
@@ -255,7 +258,7 @@ h1 {
 
 .chevron-icon {
     transition: transform 0.3s ease;
-    color: var(--color-text-primary);
+    color: var(--color-icon-default);
 }
 
 .week-content {
@@ -335,7 +338,7 @@ h1 {
 
 .workouts-count .value,
 .distance-count .value {
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
     margin-left: var(--spacing-xxs);
 }
 
@@ -350,7 +353,6 @@ h1 {
 .day-card {
     background-color: var(--color-card-background);
     border-radius: var(--border-radius);
-    box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
     padding: var(--spacing-md);
     width: 100%;
     box-sizing: border-box;
@@ -376,29 +378,81 @@ h1 {
 }
 
 .date-container {
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
     font-size: var(--font-heading-xxsmall-size);
     font-weight: var(--font-heading-xxsmall-weight);
     line-height: var(--font-heading-xxsmall-line-height);
     letter-spacing: var(--font-heading-xxsmall-letter-spacing);
 }
 
+/* Custom Checkbox Styles */
 .checkbox-container {
-    display: flex;
-    align-items: center;
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
 }
 
-.checkbox-container input {
-    transform: scale(1.5);
-    accent-color: var(--color-text-primary);
-    border: 2px solid var(--color-text-secondary);
+.checkbox-container input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* Default (unchecked) state */
+.checkbox-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-icon-subtle);
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.checkbox-container::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 9px;
+    width: 6px;
+    height: 12px;
+    border: solid var(--color-icon-subtle);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    transition: all 0.2s ease;
+}
+
+/* Checked state */
+.checkbox-container.checked::before {
+    border-color: var(--color-icon-default);
+}
+
+.checkbox-container.checked::after {
+    border-color: var(--color-icon-default);
+}
+
+/* Hover state */
+.checkbox-container:hover::before {
+    border-color: var(--color-icon-default);
+}
+
+.checkbox-container:hover::after {
+    border-color: var(--color-icon-default);
 }
 
 .workout-title {
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-heading-medium-weight);
-    line-height: var(--font-body-medium-line-height);
-    letter-spacing: var(--font-body-medium-letter-spacing);
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
+    letter-spacing: var(--font-body-large-letter-spacing);
     color: var(--color-text-primary);
 }
 
@@ -407,7 +461,7 @@ h1 {
     align-items: center;
     font-size: var(--font-body-medium-size);
     font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
+    color: var(--color-text-subtle);
     position: relative;
     padding-left: var(--spacing-md);  /* Space for the color indicator */
 }
@@ -422,6 +476,7 @@ h1 {
     width: var(--spacing-xs);
     height: var(--spacing-xs);
     border-radius: 50%;
+    color: var(--color-text-subtle);
 }
 
 .strength::before { background-color: var(--color-type-strength); }
@@ -435,11 +490,11 @@ h1 {
 .workout-time {
     display: inline-flex;
     align-items: center;
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    line-height: var(--font-body-medium-line-height);
-    letter-spacing: var(--font-body-medium-letter-spacing);
-    color: var(--color-text-primary);
+    font-size: var(--font-body-regular-size);
+    font-weight: var(--font-body-regular-weight);
+    line-height: var(--font-body-regular-line-height);
+    letter-spacing: var(--font-body-regular-letter-spacing);
+    color: var(--color-text-subtle);
 }
 
 .card-content {
@@ -449,10 +504,11 @@ h1 {
 
 /* Workout type indicators - Using CSS variables */
 .workout-type {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-size: var(--font-body-medium-size);
     font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
+    color: var(--color-text-subtle);
     position: relative;
     padding-left: var(--spacing-md);  /* Space for the color indicator */
 }
@@ -547,26 +603,25 @@ h1 {
 }
 
 .chart-card:first-child .chart-label {
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
     color: var(--color-text-primary);
 }
 
 .chart-card:first-child .chart-stats {
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
     color: var(--color-text-primary);
 }
 
 .chart-card h2 {
-    margin-top: 0;
-    margin-bottom: var(--spacing-md);
-    text-align: left;
-}
-
-.chart-card:first-child h2 {
     margin: 0;
     text-align: left;
+    font-size: var(--font-body-large-size);
+    font-weight: var(--font-body-large-weight);
+    line-height: var(--font-body-large-line-height);
 }
 
 /* Circle Chart Styles */
@@ -601,7 +656,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, 40%);
     font-size: var(--font-heading-xxsmall-size);
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
 }
 
 .chart-info {
@@ -637,7 +692,7 @@ h1 {
     justify-content: flex-end;
     margin-bottom: var(--spacing-xs);
     font-size: var(--font-heading-xxsmall-size);
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
 }
 
 .bar-chart-bar {
@@ -701,14 +756,16 @@ h1 {
 
 /* Workout meta section */
 .workout-meta {
-    margin-bottom: var(--spacing-lg);  /* Space between this section and the next */
+    background-color: var(--color-card-background);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
 }
 
 .workout-date {
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
     font-size: var(--font-body-xxs-size);
     font-weight: var(--font-body-xxs-weight);
-    margin-bottom: var(--spacing-xxs);  /* Space between date and title */
+    margin-bottom: var(--spacing-xxs);
 }
 
 .workout-detail-title {
@@ -716,9 +773,15 @@ h1 {
     font-weight: var(--font-heading-medium-weight);
     line-height: var(--font-heading-medium-line-height);
     letter-spacing: var(--font-heading-medium-letter-spacing);
-    margin: var(--spacing-xs) 0;  /* Equal top and bottom margins */
     color: var(--color-text-primary);
     text-align: left;
+}
+
+.workout-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    margin-top: var(--spacing-xs);
 }
 
 .workout-type {
@@ -726,7 +789,7 @@ h1 {
     align-items: center;
     font-size: var(--font-body-medium-size);
     font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
+    color: var(--color-text-subtle);
     position: relative;
     padding-left: var(--spacing-md);  /* Space for the color indicator */
 }
@@ -827,7 +890,7 @@ h1 {
 .workout-meta .workout-time::before {
     content: '·';
     margin: 0 var(--spacing-xxs);
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
 }
 
 .workout-type {
@@ -835,9 +898,22 @@ h1 {
     align-items: center;
     font-size: var(--font-body-medium-size);
     font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
+    color: var(--color-text-subtle);
     position: relative;
     padding-left: var(--spacing-md);  /* Space for the color indicator */
+}
+
+/* Header date styling */
+.header-date {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-body-medium-size);
+    line-height: var(--font-body-medium-line-height);
+    letter-spacing: var(--font-body-medium-letter-spacing);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-subtle);
+    text-align: center;
+    width: 100%;
 }
 
 /* Current date styling */
@@ -850,4 +926,63 @@ h1 {
     line-height: var(--font-heading-large-line-height);
     font-weight: var(--font-heading-large-weight);
     letter-spacing: var(--font-heading-large-letter-spacing);
+}
+
+/* Workout Feedback Section */
+.workout-feedback {
+    background-color: var(--color-card-background);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-lg);
+}
+
+.feedback-field {
+    margin-bottom: var(--spacing-md);
+}
+
+.feedback-label {
+    display: block;
+    font-size: var(--font-body-medium-size);
+    font-weight: var(--font-body-medium-weight);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.feedback-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: var(--border-default);
+    border-radius: var(--border-radius);
+    font-size: var(--font-body-medium-size);
+    color: var(--color-text-primary);
+    background-color: var(--surface-input);
+}
+
+.feedback-input:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+}
+
+.feedback-input:hover {
+    border-color: var(--border-color-hover);
+}
+
+.feedback-select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: var(--border-default);
+    border-radius: var(--border-radius);
+    font-size: var(--font-body-medium-size);
+    color: var(--color-text-primary);
+    background-color: var(--surface-input);
+    cursor: pointer;
+}
+
+.feedback-select:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+}
+
+.feedback-select:hover {
+    border-color: var(--border-color-hover);
 }

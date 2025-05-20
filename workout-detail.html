@@ -6,7 +6,7 @@
     <title>Workout Details</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,16 +20,16 @@
         </a>
     </div>
     
-    <div class="workout-container">
-        <div class="workout-meta">
-            <div class="workout-date">Sunday Jun 1</div>
-            <h1 class="workout-detail-title">Long run 12km</h1>
-            <div class="workout-meta-row">
-                <div class="workout-type long">Long Run</div>
-                <div class="workout-time">1h 18m</div>
-            </div>
+    <div class="workout-meta">
+        <div class="workout-date">Sunday Jun 1</div>
+        <h1 class="workout-detail-title">Long run 12km</h1>
+        <div class="workout-meta-row">
+            <div class="workout-type long">Long Run</div>
+            <div class="workout-time">1h 18m</div>
         </div>
-        
+    </div>
+
+    <div class="workout-container">
         <h2 class="section-title">Workout Structure</h2>
         <ul class="structure-list">
             <!-- Will be populated by JavaScript -->
@@ -39,9 +39,88 @@
         <div class="coaching-notes">
             <!-- Will be populated by JavaScript -->
         </div>
+
+        <section class="workout-feedback">
+            <h2 class="section-title">Notes</h2>
+            <form id="workout-feedback-form">
+                <div class="feedback-field">
+                    <label class="feedback-label" for="actual-distance">Actual Distance (km)</label>
+                    <input 
+                        type="number" 
+                        id="actual-distance" 
+                        name="actual-distance" 
+                        class="feedback-input" 
+                        step="0.01" 
+                        min="0"
+                        placeholder="Enter actual distance"
+                    />
+                </div>
+
+                <div class="feedback-field">
+                    <label class="feedback-label" for="feeling">How did the run feel?</label>
+                    <select id="feeling" name="feeling" class="feedback-select">
+                        <option value="">Select an option</option>
+                        <option value="easy">Easy</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="difficult">Difficult</option>
+                    </select>
+                </div>
+
+                <div class="feedback-field">
+                    <label class="feedback-label" for="motivation">How was your motivation?</label>
+                    <select id="motivation" name="motivation" class="feedback-select">
+                        <option value="">Select an option</option>
+                        <option value="meh">Meh</option>
+                        <option value="okay">Okay</option>
+                        <option value="vibing">Vibing</option>
+                    </select>
+                </div>
+            </form>
+        </section>
     </div>
 
-    <!-- Add the script reference here at the end of body -->
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item" id="home-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label font-body-small">Home</span>
+        </a>
+        <a href="this-week.html" class="nav-item" id="this-week-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label font-body-small">This Week</span>
+        </a>
+        <a href="coming-up.html" class="nav-item" id="coming-up-link">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 12H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label font-body-small">Coming Up</span>
+        </a>
+    </nav>
+
+    <!-- Add the script references -->
     <script src="common.js"></script>
+    <script src="js/workoutFeedback.js"></script>
+    <script>
+        // Initialize workout feedback
+        document.addEventListener('DOMContentLoaded', () => {
+            const workoutFeedback = new WorkoutFeedback();
+            // Use a unique identifier for the workout, could be from URL params or data attributes
+            const workoutId = 'workout-1'; // You might want to make this dynamic
+            workoutFeedback.initFeedbackForm(workoutId);
+        });
+    </script>
 </body>
 </html>
