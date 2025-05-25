@@ -18,64 +18,261 @@ function formatTime(minutes) {
 
 // Define paces
 const PACES = {
-    easy: 6.5,    // 6:30 min/km
-    tempo: 5.5,   // 5:30 min/km
-    long: 6.5,    // Using easy pace for long runs
-    interval: 6,   // Average pace for interval sessions
-    strength: 45,  // Fixed 45m for Crossfit
-    rest: 0       // No time for rest days
+    easy: 6.5,      // 6:30 min/km
+    tempo: 5.5,     // 5:30 min/km
+    long: 6.5,      // Using easy pace for long runs
+    intervals: 5.0, // 5:00 min/km for interval segments
+    hills: 6.0,     // Variable pace for hill training
+    strength: 45,   // Fixed 45m for Crossfit
+    rest: 0         // No time for rest days
 };
 
 // Define the training plan with weekly distances
+// Complete 18-week marathon training plan with specific run types
 const trainingPlan = [
-    { weekDistance: "40-45km", workouts: [
-        { title: "Easy run 5km", distance: 5, type: "easy", 
-        time: formatTime(calculateRunTime(5, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Tempo run 6km", distance: 6, type: "tempo", 
-        time: formatTime(calculateRunTime(6, PACES.tempo)) },
-        { title: "Rest", distance: 0, type: "rest", 
-        time: formatTime(PACES.rest) },
-        { title: "Easy run 5km", distance: 5, type: "easy", 
-        time: formatTime(calculateRunTime(5, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Long run 12km", distance: 12, type: "long", 
-        time: formatTime(calculateRunTime(12, PACES.long)) }
-    ]},
-    { weekDistance: "45-50km", workouts: [
-        { title: "Easy run 5km", distance: 5, type: "easy", 
-        time: formatTime(calculateRunTime(5, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Tempo run 7km", distance: 7, type: "tempo", 
-        time: formatTime(calculateRunTime(7, PACES.tempo)) },
-        { title: "Rest", distance: 0, type: "rest", 
-        time: formatTime(PACES.rest) },
-        { title: "Easy run 6km", distance: 6, type: "easy", 
-        time: formatTime(calculateRunTime(6, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Long run 14km", distance: 14, type: "long", 
-        time: formatTime(calculateRunTime(14, PACES.long)) }
-    ]},
-    { weekDistance: "50-55km", workouts: [
-        { title: "Easy run 6km", distance: 6, type: "easy", 
-        time: formatTime(calculateRunTime(6, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Intervals 8km", distance: 8, type: "interval", 
-        time: formatTime(calculateRunTime(8, PACES.interval)) },
-        { title: "Rest", distance: 0, type: "rest", 
-        time: formatTime(PACES.rest) },
-        { title: "Easy run 7km", distance: 7, type: "easy", 
-        time: formatTime(calculateRunTime(7, PACES.easy)) },
-        { title: "Crossfit", distance: 0, type: "strength", 
-        time: formatTime(PACES.strength) },
-        { title: "Long run 16km", distance: 16, type: "long", 
-        time: formatTime(calculateRunTime(16, PACES.long)) }
-    ]}
+    // PHASE 1: Base Building (Weeks 1-4)
+    { 
+        weekDistance: "40-45km", 
+        phase: "Base Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy)) },
+            { title: "Crossfit + Easy run 3km", distance: 3, type: "easy", time: formatTime(calculateRunTime(3, PACES.easy) + 30) },
+            { title: "Long run 12km", distance: 12, type: "long", time: formatTime(calculateRunTime(12, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "45-50km", 
+        phase: "Base Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy)) },
+            { title: "Crossfit + Easy run 4km", distance: 4, type: "easy", time: formatTime(calculateRunTime(4, PACES.easy) + 30) },
+            { title: "Long run 14km", distance: 14, type: "long", time: formatTime(calculateRunTime(14, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "50-55km", 
+        phase: "Base Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Tempo run 6km", distance: 6, type: "tempo", time: formatTime(calculateRunTime(6, PACES.tempo)) },
+            { title: "Crossfit + Easy run 4km", distance: 4, type: "easy", time: formatTime(calculateRunTime(4, PACES.easy) + 30) },
+            { title: "Long run 16km", distance: 16, type: "long", time: formatTime(calculateRunTime(16, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "45-50km", 
+        phase: "Base Building - Recovery",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy)) },
+            { title: "Crossfit + Easy run 3km", distance: 3, type: "easy", time: formatTime(calculateRunTime(3, PACES.easy) + 30) },
+            { title: "Long run 12km", distance: 12, type: "long", time: formatTime(calculateRunTime(12, PACES.long)) }
+        ]
+    },
+
+    // PHASE 2: Strength Development (Weeks 5-8)
+    { 
+        weekDistance: "55-60km", 
+        phase: "Strength Development",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Tempo run 7km", distance: 7, type: "tempo", time: formatTime(calculateRunTime(7, PACES.tempo)) },
+            { title: "Crossfit + Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy) + 30) },
+            { title: "Long run 18km", distance: 18, type: "long", time: formatTime(calculateRunTime(18, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "60-65km", 
+        phase: "Strength Development",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 9km", distance: 9, type: "easy", time: formatTime(calculateRunTime(9, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Hill repeats 8km", distance: 8, type: "hills", time: formatTime(calculateRunTime(8, PACES.hills)) },
+            { title: "Crossfit + Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy) + 30) },
+            { title: "Long run 20km", distance: 20, type: "long", time: formatTime(calculateRunTime(20, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "65-70km", 
+        phase: "Strength Development",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 10km", distance: 10, type: "easy", time: formatTime(calculateRunTime(10, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Intervals 8km", distance: 8, type: "intervals", time: formatTime(calculateRunTime(8, PACES.intervals)) },
+            { title: "Crossfit + Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy) + 30) },
+            { title: "Long run 22km", distance: 22, type: "long", time: formatTime(calculateRunTime(22, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "55-60km", 
+        phase: "Strength Development - Recovery",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy)) },
+            { title: "Crossfit + Easy run 4km", distance: 4, type: "easy", time: formatTime(calculateRunTime(4, PACES.easy) + 30) },
+            { title: "Long run 16km", distance: 16, type: "long", time: formatTime(calculateRunTime(16, PACES.long)) }
+        ]
+    },
+
+    // PHASE 3: Endurance Building (Weeks 9-12)
+    { 
+        weekDistance: "70-75km", 
+        phase: "Endurance Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 11km", distance: 11, type: "easy", time: formatTime(calculateRunTime(11, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Intervals 9km", distance: 9, type: "intervals", time: formatTime(calculateRunTime(9, PACES.intervals)) },
+            { title: "Crossfit + Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy) + 30) },
+            { title: "Long run 24km", distance: 24, type: "long", time: formatTime(calculateRunTime(24, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "75-80km", 
+        phase: "Endurance Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 12km", distance: 12, type: "easy", time: formatTime(calculateRunTime(12, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Tempo run 10km", distance: 10, type: "tempo", time: formatTime(calculateRunTime(10, PACES.tempo)) },
+            { title: "Crossfit + Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy) + 30) },
+            { title: "Long run 26km", distance: 26, type: "long", time: formatTime(calculateRunTime(26, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "80-85km", 
+        phase: "Endurance Building",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 13km", distance: 13, type: "easy", time: formatTime(calculateRunTime(13, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Hill repeats 10km", distance: 10, type: "hills", time: formatTime(calculateRunTime(10, PACES.hills)) },
+            { title: "Crossfit + Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy) + 30) },
+            { title: "Long run 28km", distance: 28, type: "long", time: formatTime(calculateRunTime(28, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "70-75km", 
+        phase: "Endurance Building - Recovery",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 9km", distance: 9, type: "easy", time: formatTime(calculateRunTime(9, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 10km", distance: 10, type: "easy", time: formatTime(calculateRunTime(10, PACES.easy)) },
+            { title: "Crossfit + Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy) + 30) },
+            { title: "Long run 20km", distance: 20, type: "long", time: formatTime(calculateRunTime(20, PACES.long)) }
+        ]
+    },
+
+    // PHASE 4: Marathon Specific (Weeks 13-16)
+    { 
+        weekDistance: "85-90km", 
+        phase: "Marathon Specific",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 14km", distance: 14, type: "easy", time: formatTime(calculateRunTime(14, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Tempo run 12km", distance: 12, type: "tempo", time: formatTime(calculateRunTime(12, PACES.tempo)) },
+            { title: "Crossfit + Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy) + 30) },
+            { title: "Long run 30km", distance: 30, type: "long", time: formatTime(calculateRunTime(30, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "90-95km", 
+        phase: "Marathon Specific - Peak",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 15km", distance: 15, type: "easy", time: formatTime(calculateRunTime(15, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Intervals 12km", distance: 12, type: "intervals", time: formatTime(calculateRunTime(12, PACES.intervals)) },
+            { title: "Crossfit + Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy) + 30) },
+            { title: "Long run 32km", distance: 32, type: "long", time: formatTime(calculateRunTime(32, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "85-90km", 
+        phase: "Marathon Specific",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 13km", distance: 13, type: "easy", time: formatTime(calculateRunTime(13, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Hill repeats 10km", distance: 10, type: "hills", time: formatTime(calculateRunTime(10, PACES.hills)) },
+            { title: "Crossfit + Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy) + 30) },
+            { title: "Long run 28km", distance: 28, type: "long", time: formatTime(calculateRunTime(28, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "70-75km", 
+        phase: "Marathon Specific - Recovery",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 10km", distance: 10, type: "easy", time: formatTime(calculateRunTime(10, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Tempo run 8km", distance: 8, type: "tempo", time: formatTime(calculateRunTime(8, PACES.tempo)) },
+            { title: "Crossfit + Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy) + 30) },
+            { title: "Long run 21km", distance: 21, type: "long", time: formatTime(calculateRunTime(21, PACES.long)) }
+        ]
+    },
+
+    // PHASE 5: Taper (Weeks 17-18)
+    { 
+        weekDistance: "50-55km", 
+        phase: "Taper",
+        workouts: [
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
+            { title: "Intervals 6km", distance: 6, type: "intervals", time: formatTime(calculateRunTime(6, PACES.intervals)) },
+            { title: "Crossfit + Easy run 4km", distance: 4, type: "easy", time: formatTime(calculateRunTime(4, PACES.easy) + 30) },
+            { title: "Long run 16km", distance: 16, type: "long", time: formatTime(calculateRunTime(16, PACES.long)) }
+        ]
+    },
+    { 
+        weekDistance: "30-35km", 
+        phase: "Race Week",
+        workouts: [
+            { title: "Light Crossfit", distance: 0, type: "strength", time: formatTime(30) },
+            { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "Easy run 3km", distance: 3, type: "easy", time: formatTime(calculateRunTime(3, PACES.easy)) },
+            { title: "Easy run 3km", distance: 3, type: "easy", time: formatTime(calculateRunTime(3, PACES.easy)) },
+            { title: "Rest", distance: 0, type: "rest", time: formatTime(PACES.rest) },
+            { title: "MARATHON 42.2km", distance: 42.2, type: "race", time: "Race Day!" }
+        ]
+    }
 ];
 
 // Function to generate dates
@@ -112,7 +309,7 @@ function navigateToWorkout(weekNum, dayIndex) {
     console.log('Navigating to workout:', { weekNum, dayIndex, workout });
     
     // Get the date
-    const startDate = new Date('2025-06-01');
+    const startDate = new Date('2025-05-26');
     const workoutDate = new Date(startDate);
     workoutDate.setDate(workoutDate.getDate() + ((weekNum - 1) * 7) + dayIndex);
     
@@ -139,77 +336,131 @@ function navigateToWorkout(weekNum, dayIndex) {
     window.location.href = `workout-detail.html?week=${weekNum}&day=${dayIndex}`;
 }
 
-// Helper functions to get workout-specific content
+// Updated getWorkoutStructure function with specific run type instructions
 function getWorkoutStructure(workout) {
-    // Return array of steps for different workout types
     switch(workout.type) {
         case 'easy':
             return [
-                "5 minutes dynamic stretching/walking warm-up",
-                `${workout.distance}km at easy pace (6:30/km)`,
-                "5 minutes walking cool down",
-                "Light stretching"
+                "10 minutes dynamic warm-up (leg swings, high knees, butt kicks)",
+                `${workout.distance}km at easy pace (6:30/km) - conversational pace`,
+                "Focus on relaxed breathing and smooth cadence (~180 steps/min)",
+                "5-10 minutes walking cool down with light stretching"
             ];
         case 'tempo':
             return [
-                "10 minutes easy jogging warm-up",
-                `${Math.round(workout.distance * 0.2)}km at easy pace (6:30/km)`,
-                `${Math.round(workout.distance * 0.6)}km at tempo pace (5:30/km)`,
-                `${Math.round(workout.distance * 0.2)}km at easy pace (6:30/km)`,
-                "5 minutes walking cool down"
+                "15 minutes easy warm-up jog",
+                "5 minutes building to tempo pace gradually",
+                `${Math.round(workout.distance * 0.6)}km at tempo pace (5:30/km) - comfortably hard effort`,
+                `${Math.round(workout.distance * 0.2)}km easy cool down`,
+                "Focus on maintaining steady, controlled breathing"
+            ];
+        case 'intervals':
+            const intervalDistance = workout.distance;
+            if (intervalDistance <= 6) {
+                return [
+                    "15 minutes easy warm-up with 4x100m strides",
+                    "6 x 400m at 5:00/km pace with 200m easy recovery jogs",
+                    "Focus on smooth acceleration and maintaining form",
+                    "10 minutes easy cool down jog"
+                ];
+            } else if (intervalDistance <= 9) {
+                return [
+                    "15 minutes easy warm-up with 4x100m strides",
+                    "5 x 800m at 5:00/km pace with 400m easy recovery jogs",
+                    "Alternative: 8 x 600m with 300m recovery",
+                    "10 minutes easy cool down jog"
+                ];
+            } else {
+                return [
+                    "15 minutes easy warm-up with 4x100m strides",
+                    "4 x 1km at 5:00/km pace with 500m easy recovery jogs",
+                    "Alternative: 6 x 800m with 400m recovery",
+                    "15 minutes easy cool down jog"
+                ];
+            }
+        case 'hills':
+            return [
+                "15 minutes easy warm-up on flat terrain",
+                "Find a hill with 6-8% gradient, 200-400m long",
+                "8-12 x hill repeats: run up strong (not sprinting), jog down easy",
+                "Focus on short, quick steps and forward lean",
+                "10 minutes easy cool down on flat terrain"
             ];
         case 'long':
             return [
-                "5 minutes easy walk/jog warm-up",
-                `${workout.distance - 2}km at easy pace (6:30/km)`,
-                "2km at moderate pace (6:00/km) for a strong finish",
-                "5 minutes cool down walk"
-            ];
-        case 'interval':
-            return [
-                "10 minutes easy jogging warm-up",
-                "6 x 800m intervals at 5:00/km pace with 200m recovery jogs",
-                "10 minutes easy jogging cool down"
+                "Start with 10 minutes very easy pace to warm up",
+                `First ${Math.round(workout.distance * 0.7)}km at easy pace (6:30/km)`,
+                `Final ${Math.round(workout.distance * 0.3)}km pick up to moderate pace (6:00/km)`,
+                "Practice marathon fueling: water every 15-20 mins, energy every 45-60 mins",
+                "Cool down with 5-10 minutes walking"
             ];
         case 'strength':
             return [
-                "10 minutes warm-up",
+                "10 minutes dynamic warm-up",
                 "3 rounds of: 10 squats, 10 lunges, 10 push-ups, 30 seconds plank",
                 "3 rounds of: 10 deadlifts, 10 box jumps, 10 kettlebell swings",
-                "10 minutes cool down and stretching"
+                "10 minutes cool down and stretching focusing on hips and glutes"
             ];
         case 'rest':
             return [
-                "Complete rest day",
-                "Focus on quality sleep",
-                "Stay hydrated",
-                "Light stretching or yoga if desired"
+                "Complete rest day - no running or intense exercise",
+                "Focus on quality sleep (8+ hours)",
+                "Stay hydrated throughout the day",
+                "Light stretching or gentle yoga if desired",
+                "Consider foam rolling or massage"
+            ];
+        case 'race':
+            return [
+                "MARATHON DAY! You've trained for this moment",
+                "Start 10-15 seconds per km slower than goal pace",
+                "Fuel every 45-60 minutes starting at 1 hour",
+                "Take fluids at every aid station",
+                "Break race into 5km segments mentally"
             ];
         default:
             return ["Workout structure not specified"];
     }
 }
 
+// Updated getCoachingNotes function with specific advice for each run type
 function getCoachingNotes(workout) {
-    // Return coaching notes specific to workout type
     switch(workout.type) {
         case 'easy':
-            return "This is a recovery run. Keep the pace truly easy - you should be able to hold a conversation throughout. Focus on good form and enjoying the run. These easy runs build your aerobic base and allow your body to recover from harder efforts.";
+            return "Easy runs are the foundation of marathon training. You should be able to hold a full conversation throughout. If you can't talk in complete sentences, slow down! These runs improve your aerobic capacity, promote recovery, and build the capillary networks needed for endurance. Aim for 70-80% of your weekly mileage at this effort.";
         case 'tempo':
-            return "Tempo runs increase your lactate threshold, helping you maintain faster paces for longer. The middle section should feel challenging but sustainable - about 80-85% of maximum effort. Your breathing will be more labored but not gasping. These runs are crucial for marathon performance.";
+            return "Tempo runs train your lactate threshold - the fastest pace you can sustain for about an hour. This should feel 'comfortably hard' - you can speak in short phrases but not hold a conversation. Your breathing will be noticeably elevated but controlled. This pace is crucial for marathon performance as it's close to your sustainable race pace.";
+        case 'intervals':
+            return "Interval training improves your VO2 max and running economy. These are high-quality efforts that should feel challenging but controlled. Focus on maintaining good form even when tired. The recovery periods are crucial - don't cut them short. These sessions teach your body to clear lactate efficiently and improve your speed endurance.";
+        case 'hills':
+            return "Hill training builds leg strength, improves running economy, and develops power. Run the uphills with effort but not all-out sprinting. Focus on maintaining your cadence with shorter strides. Pump your arms and lean slightly forward from your ankles. The downhill recovery teaches efficient descent technique. Hills are nature's gym for runners!";
         case 'long':
-            return "Your long run is the cornerstone of marathon training. Focus on time on feet rather than pace. Practice your fueling strategy - take water and consider energy gels every 45-60 minutes. The slight pace increase at the end trains your body to push when fatigued, crucial for marathon success.";
-        case 'interval':
-            return "Interval training improves your VO2 max and running economy. Push during the work intervals - these should be challenging. Focus on maintaining form even when tired. The recovery jogs are essential - don't cut them short. Quality over quantity is key for these sessions.";
+            return "Long runs are the cornerstone of marathon training. Start conservatively and gradually build confidence in your ability to cover distance. Practice your race-day nutrition and hydration strategies. The final portion at moderate pace teaches your body to run efficiently when fatigued - exactly what you'll need in the marathon's final stages.";
         case 'strength':
-            return "Cross-training with strength work prevents injuries and improves running economy. Focus on form over weight/reps. These sessions complement your running by strengthening supportive muscles and correcting imbalances that develop from running alone.";
+            return "Cross-training with strength work prevents injuries and improves running economy. Focus on functional movements that support running: glutes, core, and single-leg stability. These sessions complement your running by strengthening supportive muscles and correcting imbalances that develop from repetitive running motion.";
         case 'rest':
-            return "Rest days are when adaptation happens! Your body gets stronger during recovery, not during the workout itself. Avoid the temptation to add extra training - proper rest now means better performance later. Stay hydrated and get quality sleep to maximize recovery.";
+            return "Rest days are when adaptation happens! Your body gets stronger during recovery, not during the workout itself. Resist the urge to add extra training. Proper rest now means better performance later. Stay hydrated, eat well, and prioritize sleep. Your next workout will be better because you rested today.";
+        case 'race':
+            return "This is race day! Trust your training and remember all the preparation you've done. Start conservatively - you can always pick up the pace later. Stick to your planned fueling strategy and stay mentally positive. When it gets tough (and it will), remember why you started this journey. You're stronger than you know!";
         default:
             return "Focus on consistency in your training. Every workout serves a purpose in preparing you for your marathon goal.";
     }
 }
 
+// Updated getWorkoutTypeName function
+function getWorkoutTypeName(type) {
+    const typeNames = {
+        'easy': 'Easy Run',
+        'tempo': 'Tempo Run',
+        'long': 'Long Run',
+        'intervals': 'Interval Training',
+        'hills': 'Hill Repeats',
+        'strength': 'Strength Training',
+        'rest': 'Rest Day',
+        'race': 'RACE DAY!'
+    };
+    
+    return typeNames[type] || 'Workout';
+}
 // Helper function to get a user-friendly name for workout types
 function getWorkoutTypeName(type) {
     const typeNames = {
@@ -226,7 +477,7 @@ function getWorkoutTypeName(type) {
 
 // Generate HTML for all weeks
 function generateWeeksHTML() {
-    const startDate = new Date('2025-06-01');
+    const startDate = new Date('2025-05-26');
     const dates = generateDates(startDate, trainingPlan.length);
     let html = '';
 
@@ -449,7 +700,7 @@ function initializeMainPage() {
     const weekHeaders = document.querySelectorAll('.week-header');
     
     weekHeaders.forEach((header, index) => {
-        const weekStartDate = new Date('2025-06-01');
+        const weekStartDate = new Date('2025-05-26');
         weekStartDate.setDate(weekStartDate.getDate() + (index * 7));
         const weekEndDate = new Date(weekStartDate);
         weekEndDate.setDate(weekEndDate.getDate() + 6);
