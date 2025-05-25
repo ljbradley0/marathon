@@ -101,7 +101,7 @@
   --border-default: var(--border-width-default) var(--border-style-default) var(--border-color-default);
   
   /* Background Colors */
-  --color-background: var(--surface-sunken);
+  --color-background: #F6F7F9;
   --color-card-background: var(--surface-raised);
   
   /* Progress Colors */
@@ -129,4 +129,9 @@
   
   /* Border Radius */
   --border-radius: 8px;
+
+  /* Brand Colors */
+  --color-brand-100: #F2F2FF;
+  --color-brand-400: #6367EF;
+  --color-brand-500: #1D23DC;
 }

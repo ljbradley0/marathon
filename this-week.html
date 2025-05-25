@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -57,15 +59,73 @@
     <script src="common.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('This Week page loaded'); // Debug log
             renderFirstWeek(); 
             loadProgress();
+            
+            // Add event listener for visibility change
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    console.log('Page became visible, reloading progress'); // Debug log
+                    loadProgress();
+                }
+            });
+            
+            // Listen for workout progress updates
+            window.addEventListener('workoutProgressUpdated', (event) => {
+                console.log('Received workout progress update:', event.detail); // Debug log
+                const { workoutId, isCompleted } = event.detail;
+                const checkbox = document.getElementById(workoutId);
+                if (checkbox) {
+                    console.log('Found checkbox for workout:', workoutId); // Debug log
+                    checkbox.checked = isCompleted;
+                    const container = checkbox.closest('.checkbox-container');
+                    if (container) {
+                        if (isCompleted) {
+                            container.classList.add('checked');
+                            const icon = container.querySelector('ion-icon');
+                            if (icon) {
+                                icon.setAttribute('name', 'checkmark-circle');
+                            }
+                        } else {
+                            container.classList.remove('checked');
+                            const icon = container.querySelector('ion-icon');
+                            if (icon) {
+                                icon.setAttribute('name', 'checkmark-circle-outline');
+                            }
+                        }
+                    }
+                    
+                    // Update the progress bar for this week
+                    const weekMatch = workoutId.match(/week(\d+)_/);
+                    if (weekMatch && weekMatch[1]) {
+                        const weekNum = parseInt(weekMatch[1]);
+                        console.log('Updating progress bar for week:', weekNum); // Debug log
+                        updateProgressBar(weekNum);
+                    }
+                } else {
+                    console.log('No checkbox found for workout:', workoutId); // Debug log
+                }
+            });
+            
+            // Add click handler for checkboxes
+            document.addEventListener('change', (event) => {
+                if (event.target.type === 'checkbox' && event.target.id) {
+                    console.log('Checkbox changed:', event.target.id); // Debug log
+                    const weekMatch = event.target.id.match(/week(\d+)_/);
+                    if (weekMatch && weekMatch[1]) {
+                        const weekNum = parseInt(weekMatch[1]);
+                        toggleCompleted(event.target, weekNum);
+                    }
+                }
+            });
             
             function renderFirstWeek() {
                 const startDate = new Date('2025-06-02'); // Monday, June 2nd, 2025
                 const currentWeekIndex = 0;
                 const weekNum = currentWeekIndex + 1;
                 const currentWeek = trainingPlan[currentWeekIndex];
-                const weekId = `week${weekNum}`; // Changed to match the expected format
+                const weekId = `week${weekNum}`;
                 
                 // Calculate week dates starting from Monday
                 const weekDates = generateDatesForWeek(startDate);
@@ -113,6 +173,7 @@
                                 </div>
                                 <div class="checkbox-container" onclick="event.stopPropagation()">
                                     <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${weekNum})">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
                                 </div>
                             </div>
                             <div class="card-content">

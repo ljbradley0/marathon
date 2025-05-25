@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,27 +22,35 @@
         </a>
     </div>
     
-    <div class="workout-meta">
-        <div class="workout-date">Sunday Jun 1</div>
-        <h1 class="workout-detail-title">Long run 12km</h1>
-        <div class="workout-meta-row">
-            <div class="workout-type long">Long Run</div>
-            <div class="workout-time">1h 18m</div>
+    <div class="detail-header">
+        <div class="detail-header-content">
+            <div class="detail-date">Monday, March 18</div>
+            <h1 class="detail-title">Easy Run</h1>
+            <div class="detail-meta">1h 18m</div>
+        </div>
+        <div class="detail-actions">
+            <button class="complete-button" id="workout-completed">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </button>
         </div>
     </div>
 
     <div class="workout-container">
-        <h2 class="section-title">Workout Structure</h2>
-        <ul class="structure-list">
-            <!-- Will be populated by JavaScript -->
-        </ul>
+        <div class="workout-section">
+            <h2 class="section-title">Details</h2>
+            <ul class="structure-list">
+                <!-- Will be populated by JavaScript -->
+            </ul>
+        </div>
         
-        <h2 class="section-title">Coaching Notes</h2>
-        <div class="coaching-notes">
-            <!-- Will be populated by JavaScript -->
+        <div class="workout-section">
+            <h2 class="section-title">Coaching Notes</h2>
+            <div class="coaching-notes">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </div>
 
-        <section class="workout-feedback">
+        <div class="workout-section">
             <h2 class="section-title">Notes</h2>
             <form id="workout-feedback-form">
                 <div class="feedback-field">
@@ -76,7 +86,7 @@
                     </select>
                 </div>
             </form>
-        </section>
+        </div>
     </div>
 
     <!-- Bottom Navigation -->
@@ -112,14 +122,61 @@
 
     <!-- Add the script references -->
     <script src="common.js"></script>
-    <script src="js/workoutFeedback.js"></script>
     <script>
-        // Initialize workout feedback
         document.addEventListener('DOMContentLoaded', () => {
-            const workoutFeedback = new WorkoutFeedback();
-            // Use a unique identifier for the workout, could be from URL params or data attributes
-            const workoutId = 'workout-1'; // You might want to make this dynamic
-            workoutFeedback.initFeedbackForm(workoutId);
+            // Initialize workout details first
+            initializeWorkoutDetailPage();
+            
+            // Handle complete button state
+            const completeButton = document.getElementById('workout-completed');
+            if (completeButton) {
+                // Get workout data from sessionStorage
+                const workoutData = JSON.parse(sessionStorage.getItem('currentWorkout'));
+                console.log('Workout data:', workoutData); // Debug log
+                
+                // Get week and day from URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const weekNum = parseInt(urlParams.get('week'));
+                const dayIndex = parseInt(urlParams.get('day'));
+                
+                console.log('URL params:', { weekNum, dayIndex }); // Debug log
+                
+                const workoutId = `week${weekNum}_day${dayIndex + 1}`;
+                console.log('Workout ID:', workoutId); // Debug log
+                
+                // Load initial state from localStorage
+                const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+                console.log('Saved progress:', savedProgress); // Debug log
+                
+                if (savedProgress[workoutId]) {
+                    completeButton.classList.add('completed');
+                    const icon = completeButton.querySelector('ion-icon');
+                    icon.setAttribute('name', 'checkmark-circle-sharp');
+                }
+                
+                completeButton.addEventListener('click', () => {
+                    completeButton.classList.toggle('completed');
+                    const icon = completeButton.querySelector('ion-icon');
+                    const isCompleted = completeButton.classList.contains('completed');
+                    
+                    if (isCompleted) {
+                        icon.setAttribute('name', 'checkmark-circle-sharp');
+                    } else {
+                        icon.setAttribute('name', 'checkmark-circle-outline');
+                    }
+                    
+                    // Save to localStorage
+                    const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+                    savedProgress[workoutId] = isCompleted;
+                    localStorage.setItem('marathonProgress', JSON.stringify(savedProgress));
+                    console.log('Updated progress:', savedProgress); // Debug log
+                    
+                    // Dispatch a custom event that can be listened to by other pages
+                    window.dispatchEvent(new CustomEvent('workoutProgressUpdated', {
+                        detail: { workoutId, isCompleted }
+                    }));
+                });
+            }
         });
     </script>
 </body>

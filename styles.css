@@ -21,6 +21,9 @@ body {
     color: var(--color-text-primary);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 80px; /* Add space for the fixed nav */
     font-size: var(--font-body-medium-size);
     line-height: var(--font-body-medium-line-height);
     letter-spacing: var(--font-body-medium-letter-spacing);
@@ -198,6 +201,7 @@ body {
     padding: var(--spacing-xs) 0;
     box-shadow: 0 var(--spacing-xxs) var(--spacing-sm) var(--color-shadow);
     z-index: 10;
+    height: 80px; /* Set explicit height */
 }
 
 .nav-item {
@@ -215,6 +219,9 @@ body {
 
 .nav-icon {
     margin-bottom: var(--spacing-xxs);
+    width: 24px;
+    height: 24px;
+    color: currentColor;
 }
 
 .nav-label {
@@ -253,7 +260,6 @@ body {
 .week-header-content {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
 }
 
 .chevron-icon {
@@ -351,24 +357,15 @@ body {
 }
 
 .day-card {
-    background-color: var(--color-card-background);
-    border-radius: var(--border-radius);
+    background: var(--elevation-surface-default, #FFF);
+    border-radius: 16px;
     padding: var(--spacing-md);
     width: 100%;
     box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
-}
-
-.day-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: var(--spacing-xs);
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    box-shadow: 0px 0px 9px 0px rgba(26, 5, 5, 0.03);
 }
 
 .card-header {
@@ -378,11 +375,33 @@ body {
 }
 
 .date-container {
-    color: var(--color-text-subtle);
-    font-size: var(--font-heading-xxsmall-size);
-    font-weight: var(--font-heading-xxsmall-weight);
-    line-height: var(--font-heading-xxsmall-line-height);
-    letter-spacing: var(--font-heading-xxsmall-letter-spacing);
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+}
+
+.workout-title {
+    color: #1A0505;
+    font-family: "Josefin Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+}
+
+.workout-time {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
 }
 
 /* Custom Checkbox Styles */
@@ -403,67 +422,36 @@ body {
     z-index: 1;
 }
 
-/* Default (unchecked) state */
-.checkbox-container::before {
-    content: '';
+.checkbox-container ion-icon {
     position: absolute;
     top: 0;
     left: 0;
     width: 24px;
     height: 24px;
-    border: 2px solid var(--color-icon-subtle);
-    border-radius: 50%;
-    background: transparent;
+    color: var(--color-icon-subtle);
     transition: all 0.2s ease;
-}
-
-.checkbox-container::after {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 9px;
-    width: 6px;
-    height: 12px;
-    border: solid var(--color-icon-subtle);
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    transition: all 0.2s ease;
-}
-
-/* Checked state */
-.checkbox-container.checked::before {
-    border-color: var(--color-icon-default);
-}
-
-.checkbox-container.checked::after {
-    border-color: var(--color-icon-default);
+    pointer-events: none;
 }
 
 /* Hover state */
-.checkbox-container:hover::before {
-    border-color: var(--color-icon-default);
+.checkbox-container:hover ion-icon {
+    color: var(--color-icon-default);
 }
 
-.checkbox-container:hover::after {
-    border-color: var(--color-icon-default);
-}
-
-.workout-title {
-    font-size: var(--font-body-large-size);
-    font-weight: var(--font-body-large-weight);
-    line-height: var(--font-body-large-line-height);
-    letter-spacing: var(--font-body-large-letter-spacing);
-    color: var(--color-text-primary);
+/* Checked state - needs to override hover */
+.checkbox-container.checked ion-icon,
+.checkbox-container.checked:hover ion-icon {
+    color: var(--color-brand-400);
 }
 
 .workout-type {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-subtle);
-    position: relative;
-    padding-left: var(--spacing-md);  /* Space for the color indicator */
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+    color: var(--text-subtle, #969696);
 }
 
 /* Color indicators using ::before */
@@ -487,16 +475,6 @@ body {
 .interval::before { background-color: var(--color-type-interval); }
 .zone::before { background-color: var(--color-type-zone); }
 
-.workout-time {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-body-regular-size);
-    font-weight: var(--font-body-regular-weight);
-    line-height: var(--font-body-regular-line-height);
-    letter-spacing: var(--font-body-regular-letter-spacing);
-    color: var(--color-text-subtle);
-}
-
 .card-content {
     display: flex;
     flex-direction: column;
@@ -510,7 +488,6 @@ body {
     font-weight: var(--font-body-medium-weight);
     color: var(--color-text-subtle);
     position: relative;
-    padding-left: var(--spacing-md);  /* Space for the color indicator */
 }
 
 /* Color indicators using ::before */
@@ -566,6 +543,11 @@ body {
 
 .charts-container > :first-child {
     grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    padding: 0;
 }
 
 .chart-card {
@@ -579,49 +561,22 @@ body {
 
 /* Special styling for the total progress chart */
 .chart-card:first-child {
+    background: none;
+    padding: 0;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--spacing-md);
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--spacing-md)
 }
 
 .chart-card:first-child .chart-content {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: var(--spacing-lg);
-    align-items: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chart-card:first-child .circle-chart {
-    justify-self: center;
-}
-
-.chart-card:first-child .chart-info {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-}
-
-.chart-card:first-child .chart-label {
-    font-size: var(--font-body-large-size);
-    font-weight: var(--font-body-large-weight);
-    line-height: var(--font-body-large-line-height);
-    color: var(--color-text-primary);
-}
-
-.chart-card:first-child .chart-stats {
-    font-size: var(--font-body-large-size);
-    font-weight: var(--font-body-large-weight);
-    line-height: var(--font-body-large-line-height);
-    color: var(--color-text-primary);
-}
-
-.chart-card h2 {
     margin: 0;
-    text-align: left;
-    font-size: var(--font-body-large-size);
-    font-weight: var(--font-body-large-weight);
-    line-height: var(--font-body-large-line-height);
 }
 
 /* Circle Chart Styles */
@@ -630,7 +585,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
+    width: 173px;
+    height: 173px;
 }
 
 .circle-chart-container {
@@ -644,10 +600,15 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -60%);
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
+    transform: translate(-50%, -50%);
+    color: #000;
+    text-align: center;
+    font-family: "Josefin Sans";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
 }
 
 .circle-label {
@@ -697,7 +658,7 @@ body {
 
 .bar-chart-bar {
     width: 100%;
-    height: var(--spacing-md);
+    height: var(--spacing-xs);
     background-color: var(--color-progress-empty);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -721,14 +682,11 @@ body {
 
 /* Workout Detail Page Styles */
 .header {
-    background-color: var(--color-card-background);
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    justify-content: left;
+    align-items: left;
+    position: relative;
 }
 
 .back-button {
@@ -736,16 +694,81 @@ body {
     align-items: center;
     text-decoration: none;
     color: var(--color-text-primary);
+    gap: var(--spacing-sm);
 }
 
-.header-title {
-    font-size: var(--font-heading-medium-size);
-    font-weight: var(--font-heading-medium-weight);
-    line-height: var(--font-heading-medium-line-height);
-    letter-spacing: var(--font-heading-medium-letter-spacing);
+.back-button span {
+    text-decoration: none;
     color: var(--color-text-primary);
-    margin: 0;
-    flex: 1;
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+}
+
+.back-button svg {
+    width: 24px;
+    height: 24px;
+    color: currentColor;
+}
+
+.date {
+    color: var(--text-subtle, #969696);
+    text-align: center;
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.heading {
+    color: #000;
+    text-align: center;
+    font-family: "Josefin Sans";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
+}
+
+.progress-circle {
+    width: 173px;
+    height: 173px;
+    flex-shrink: 0;
+    position: relative;
+    margin: 0 auto;
+}
+
+.progress-circle svg {
+    width: 173px;
+    height: 173px;
+}
+
+.progress-circle circle {
+    stroke-width: 8px;
+    stroke: #E5E5E5;
+    fill: none;
+}
+
+.progress-circle .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    text-align: center;
+    font-family: "Josefin Sans";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
 }
 
 .workout-container {
@@ -754,94 +777,107 @@ body {
     margin: 0 auto;
 }
 
+.workout-section {
+    margin-bottom: 40px;
+}
+
+.workout-section:last-child {
+    margin-bottom: 100px;
+}
+
+.section-title {
+    font-family: "Josefin Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    color: var(--text-primary, #1A0505);
+}
+
+.workout-section:last-child .section-title {
+    margin-bottom: 16px;
+}
+
 /* Workout meta section */
 .workout-meta {
     background-color: var(--color-card-background);
     padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
 }
 
 .workout-date {
-    color: var(--color-text-subtle);
-    font-size: var(--font-body-xxs-size);
-    font-weight: var(--font-body-xxs-weight);
-    margin-bottom: var(--spacing-xxs);
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
 }
 
 .workout-detail-title {
-    font-size: var(--font-heading-medium-size);
-    font-weight: var(--font-heading-medium-weight);
-    line-height: var(--font-heading-medium-line-height);
-    letter-spacing: var(--font-heading-medium-letter-spacing);
-    color: var(--color-text-primary);
-    text-align: left;
+    color: var(--text-primary, #1A0505);
+    font-family: "Josefin Sans";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
+    margin: 0;
 }
 
 .workout-meta-row {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xxs);
-    margin-top: var(--spacing-xs);
+    gap: var(--spacing-md);
 }
 
-.workout-type {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-subtle);
-    position: relative;
-    padding-left: var(--spacing-md);  /* Space for the color indicator */
+.workout-time {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
 }
 
-/* Color indicators using ::before */
-.workout-type::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: var(--spacing-xs);
-    height: var(--spacing-xs);
-    border-radius: 50%;
-}
-
-.strength::before { background-color: var(--color-type-strength); }
-.easy::before { background-color: var(--color-type-easy); }
-.long::before { background-color: var(--color-type-long); }
-.rest::before { background-color: var(--color-type-rest); }
-.tempo::before { background-color: var(--color-type-tempo); }
-.interval::before { background-color: var(--color-type-interval); }
-.zone::before { background-color: var(--color-type-zone); }
-
-.section-title {
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-heading-medium-weight);
-    line-height: var(--font-body-medium-line-height);
-    letter-spacing: var(--font-body-medium-letter-spacing);
-    margin-bottom: var(--spacing-xs);
+/* Remove all dot/bullet styles */
+.workout-meta .workout-time::before,
+.workout-meta .workout-type::before {
+    display: none;
+    content: none;
 }
 
 .structure-list {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: var(--spacing-lg);
+    list-style-type: disc;
+    padding-left: var(--spacing-md);
+    margin: 0;
 }
 
 .structure-list li {
-    background-color: var(--color-card-background);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    margin-bottom: var(--spacing-xs);
-    font-size: var(--font-body-medium-size);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.15px;
+    color: var(--text-primary, #1A0505);
+    margin: 0;
+    padding: 0;
 }
 
 .coaching-notes {
-    background-color: var(--color-card-background);
-    padding: var(--spacing-md);
+    display: flex;
+    width: 100%;
+    min-height: 151px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    background: var(--elevation-surface-default, #FFF);
     border-radius: var(--border-radius);
-    line-height: 1.5;
-    font-size: var(--font-body-medium-size);
+    margin: var(--spacing-xs) 0;
+    padding: var(--spacing-md);
 }
 
 /* Make day cards clickable with visual feedback */
@@ -883,24 +919,7 @@ body {
 .workout-meta-row {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xxs);
-}
-
-/* Only show bullet point in workout detail page */
-.workout-meta .workout-time::before {
-    content: '·';
-    margin: 0 var(--spacing-xxs);
-    color: var(--color-text-subtle);
-}
-
-.workout-type {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-subtle);
-    position: relative;
-    padding-left: var(--spacing-md);  /* Space for the color indicator */
+    gap: var(--spacing-md);
 }
 
 /* Header date styling */
@@ -942,47 +961,161 @@ body {
 
 .feedback-label {
     display: block;
-    font-size: var(--font-body-medium-size);
-    font-weight: var(--font-body-medium-weight);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
+    color: var(--text-subtle);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+    margin-bottom: 2px;
 }
 
-.feedback-input {
-    width: 100%;
-    padding: var(--spacing-sm);
-    border: var(--border-default);
-    border-radius: var(--border-radius);
-    font-size: var(--font-body-medium-size);
-    color: var(--color-text-primary);
-    background-color: var(--surface-input);
-}
-
-.feedback-input:focus {
-    outline: none;
-    border-color: var(--border-color-focus);
-}
-
-.feedback-input:hover {
-    border-color: var(--border-color-hover);
-}
-
+.feedback-input,
 .feedback-select {
     width: 100%;
     padding: var(--spacing-sm);
-    border: var(--border-default);
-    border-radius: var(--border-radius);
-    font-size: var(--font-body-medium-size);
-    color: var(--color-text-primary);
-    background-color: var(--surface-input);
-    cursor: pointer;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+    color: var(--text-subtle);
+    background: var(--elevation-surface-default, #FFF);
 }
 
+.feedback-input:focus,
 .feedback-select:focus {
     outline: none;
     border-color: var(--border-color-focus);
 }
 
+.feedback-input:hover,
 .feedback-select:hover {
     border-color: var(--border-color-hover);
+}
+
+/* Icon Styles */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: currentColor;
+}
+
+.icon-small {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-large {
+    width: 32px;
+    height: 32px;
+}
+
+/* Update nav icon styles */
+.nav-icon {
+    margin-bottom: var(--spacing-xxs);
+    width: 24px;
+    height: 24px;
+    color: currentColor;
+}
+
+/* Update back button icon */
+.back-button .icon {
+    margin-right: var(--spacing-xs);
+}
+
+.workout-meta .checkbox-container {
+    margin-left: auto;
+}
+
+/* Detail Header Styles */
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--spacing-md);
+    background-color: var(--color-card-background);
+}
+
+.detail-header-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-date {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+}
+
+.detail-title {
+    color: var(--text-primary, #1A0505);
+    font-family: "Josefin Sans";
+    font-size: var(--font-heading-large-size);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
+    margin: 0;
+}
+
+.detail-meta {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+}
+
+.detail-actions {
+    display: flex;
+    align-items: flex-start;
+}
+
+.complete-button {
+    display: flex;
+    width: 72px;
+    height: 72px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: #F6F7F9;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.complete-button:hover {
+    background: #E0E5EF;
+}
+
+.complete-button.completed {
+    border: 2px solid var(--color-brand-100);
+    background: var(--color-brand-100);
+}
+
+.complete-button ion-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-icon-subtle);
+    transition: all 0.2s ease;
+}
+
+.complete-button.completed ion-icon {
+    color: var(--color-brand-500);
 }

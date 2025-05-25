@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="design-system-tokens.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -19,12 +21,12 @@
         <main>
             <div class="charts-container">
                 <div class="chart-card">
-                    <h2 class="font-heading-small">Total progress</h2>
                     <div class="chart-content">
-                        <div class="circle-chart" id="progress-chart"></div>
-                        <div class="chart-info">
-                            <div class="chart-label">Weeks</div>
-                            <div class="chart-stats" id="weeks-stats"></div>
+                        <div class="circle-chart">
+                            <svg width="173" height="173" viewBox="0 0 173 173" fill="none">
+                                <circle cx="86.5" cy="86.5" r="82.5" stroke="#E5E5E5" stroke-width="8"/>
+                            </svg>
+                            <div class="circle-percent">75%</div>
                         </div>
                     </div>
                 </div>
@@ -39,6 +41,7 @@
                     <div class="bar-chart" id="distance-chart"></div>
                 </div>
             </div>
+
         </main>
 
         <!-- Bottom Navigation Bar -->
@@ -137,49 +140,42 @@
             const percentComplete = Math.round((completedWeeks / totalWeeks) * 100);
             
             // Generate SVG for circle chart
-            const radius = 80;
-            const strokeWidth = 12;
-            const center = radius + strokeWidth;
+            const radius = 82.5;
+            const strokeWidth = 8;
+            const center = 86.5;
             const circumference = 2 * Math.PI * radius;
             const strokeDashoffset = circumference - (percentComplete / 100) * circumference;
             
             const chartHTML = `
-                <div class="circle-chart-container">
-                    <svg width="${center * 2}" height="${center * 2}" viewBox="0 0 ${center * 2} ${center * 2}">
-                        <!-- Background circle -->
-                        <circle 
-                            cx="${center}" 
-                            cy="${center}" 
-                            r="${radius}"
-                            fill="transparent"
-                            stroke="var(--color-progress-empty)"
-                            stroke-width="${strokeWidth}"
-                        />
-                        
-                        <!-- Progress circle -->
-                        <circle 
-                            cx="${center}" 
-                            cy="${center}" 
-                            r="${radius}"
-                            fill="transparent"
-                            stroke="var(--color-progress-filled)"
-                            stroke-width="${strokeWidth}"
-                            stroke-dasharray="${circumference}"
-                            stroke-dashoffset="${strokeDashoffset}"
-                            transform="rotate(-90 ${center} ${center})"
-                            stroke-linecap="round"
-                        />
-                    </svg>
+                <svg width="173" height="173" viewBox="0 0 173 173" fill="none">
+                    <!-- Background circle -->
+                    <circle 
+                        cx="${center}" 
+                        cy="${center}" 
+                        r="${radius}"
+                        fill="transparent"
+                        stroke="#E5E5E5"
+                        stroke-width="${strokeWidth}"
+                    />
                     
-                    <!-- Percentage text in the middle -->
-                    <div class="circle-percent">
-                        <span>${percentComplete}%</span>
-                    </div>
-                </div>
+                    <!-- Progress circle -->
+                    <circle 
+                        cx="${center}" 
+                        cy="${center}" 
+                        r="${radius}"
+                        fill="transparent"
+                        stroke="var(--color-progress-filled)"
+                        stroke-width="${strokeWidth}"
+                        stroke-dasharray="${circumference}"
+                        stroke-dashoffset="${strokeDashoffset}"
+                        transform="rotate(-90 ${center} ${center})"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <div class="circle-percent">${percentComplete}%</div>
             `;
             
-            document.getElementById('progress-chart').innerHTML = chartHTML;
-            document.getElementById('weeks-stats').innerHTML = `${completedWeeks}/${totalWeeks}`;
+            document.querySelector('.circle-chart').innerHTML = chartHTML;
         }
         
         // Render workout completion bar chart

@@ -109,6 +109,8 @@ function navigateToWorkout(weekNum, dayIndex) {
     const week = trainingPlan[weekNum - 1];
     const workout = week.workouts[dayIndex];
     
+    console.log('Navigating to workout:', { weekNum, dayIndex, workout });
+    
     // Get the date
     const startDate = new Date('2025-06-01');
     const workoutDate = new Date(startDate);
@@ -121,6 +123,7 @@ function navigateToWorkout(weekNum, dayIndex) {
     // Store the workout data in sessionStorage to retrieve it on the detail page
     const workoutData = {
         weekNum: weekNum,
+        dayIndex: dayIndex,
         date: formatDate(workoutDate),
         title: workout.title,
         type: workout.type,
@@ -129,9 +132,10 @@ function navigateToWorkout(weekNum, dayIndex) {
         coachingNotes: getCoachingNotes(workout)
     };
     
+    console.log('Storing workout data:', workoutData);
     sessionStorage.setItem('currentWorkout', JSON.stringify(workoutData));
     
-    // Navigate to the detail page
+    // Navigate to the detail page with week and day parameters
     window.location.href = `workout-detail.html?week=${weekNum}&day=${dayIndex}`;
 }
 
@@ -276,6 +280,7 @@ function generateWeeksHTML() {
                         </div>
                         <div class="checkbox-container" onclick="event.stopPropagation()">
                             <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${weekIndex + 1})">
+                            <ion-icon name="checkmark-circle-outline"></ion-icon>
                         </div>
                     </div>
                     <div class="card-content">
@@ -307,19 +312,32 @@ function toggleWeek(button) {
 
 // Toggle completed class when checkbox is checked
 function toggleCompleted(checkbox, weekNum) {
-    const card = checkbox.closest('.day-card');
-    const checkboxContainer = checkbox.closest('.checkbox-container');
+    const id = checkbox.id;
+    const container = checkbox.closest('.checkbox-container');
     
+    // Toggle the checked class on the container
+    container.classList.toggle('checked');
+    
+    // Update the icon based on checked state
+    const icon = container.querySelector('ion-icon');
     if (checkbox.checked) {
-        card.classList.add('completed');
-        checkboxContainer.classList.add('checked');
+        icon.setAttribute('name', 'checkmark-circle');
     } else {
-        card.classList.remove('completed');
-        checkboxContainer.classList.remove('checked');
+        icon.setAttribute('name', 'checkmark-circle-outline');
     }
     
+    // Save to localStorage
+    const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+    savedProgress[id] = checkbox.checked;
+    localStorage.setItem('marathonProgress', JSON.stringify(savedProgress));
+    
+    // Update progress bar for this week only
     updateProgressBar(weekNum);
-    saveProgress();
+    
+    // Dispatch a custom event that can be listened to by other pages
+    window.dispatchEvent(new CustomEvent('workoutProgressUpdated', {
+        detail: { workoutId: id, isCompleted: checkbox.checked }
+    }));
 }
 
 // Update progress bar for a specific week
@@ -363,68 +381,46 @@ function updateProgressBar(weekNum) {
     }
 }
 
-// Save progress to local storage
-function saveProgress() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    let progress = {};
-    
-    // Try to load existing progress first
-    const existingProgress = localStorage.getItem('marathonProgress');
-    if (existingProgress) {
-        progress = JSON.parse(existingProgress);
-    }
-    
-    // Update with current checkbox states
-    checkboxes.forEach(checkbox => {
-        progress[checkbox.id] = checkbox.checked;
-    });
-    
-    localStorage.setItem('marathonProgress', JSON.stringify(progress));
-}
-
 // Load progress from local storage
 function loadProgress() {
-    const savedProgress = localStorage.getItem('marathonProgress');
+    const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
     
-    if (savedProgress) {
-        const progress = JSON.parse(savedProgress);
-        
-        // First, mark all checkboxes based on saved state
-        Object.keys(progress).forEach(id => {
-            const checkbox = document.getElementById(id);
-            if (checkbox) {
-                checkbox.checked = progress[id];
-                if (progress[id]) {
-                    const card = checkbox.closest('.day-card');
-                    const checkboxContainer = checkbox.closest('.checkbox-container');
-                    if (card) {
-                        card.classList.add('completed');
+    // First, mark all checkboxes based on saved state
+    Object.keys(savedProgress).forEach(id => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.checked = savedProgress[id];
+            const container = checkbox.closest('.checkbox-container');
+            if (container) {
+                if (savedProgress[id]) {
+                    container.classList.add('checked');
+                    const icon = container.querySelector('ion-icon');
+                    if (icon) {
+                        icon.setAttribute('name', 'checkmark-circle');
                     }
-                    if (checkboxContainer) {
-                        checkboxContainer.classList.add('checked');
+                } else {
+                    container.classList.remove('checked');
+                    const icon = container.querySelector('ion-icon');
+                    if (icon) {
+                        icon.setAttribute('name', 'checkmark-circle-outline');
                     }
                 }
             }
-        });
-        
-        // Then update all progress bars
-        const weekNums = new Set();
-        Object.keys(progress).forEach(id => {
-            const weekMatch = id.match(/week(\d+)_/);
-            if (weekMatch && weekMatch[1]) {
-                weekNums.add(parseInt(weekMatch[1]));
-            }
-        });
-        
-        weekNums.forEach(weekNum => {
-            updateProgressBar(weekNum);
-        });
-    }
+        }
+    });
     
-    // Initialize all progress bars
-    for (let i = 1; i <= trainingPlan.length; i++) {
-        updateProgressBar(i);
-    }
+    // Then update all progress bars
+    const weekNums = new Set();
+    Object.keys(savedProgress).forEach(id => {
+        const weekMatch = id.match(/week(\d+)_/);
+        if (weekMatch && weekMatch[1]) {
+            weekNums.add(parseInt(weekMatch[1]));
+        }
+    });
+    
+    weekNums.forEach(weekNum => {
+        updateProgressBar(weekNum);
+    });
 }
 
 // Initialize the proper page based on URL
@@ -482,16 +478,9 @@ function initializeWorkoutDetailPage() {
     
     // Update the page with workout details
     document.querySelector('.back-button span').textContent = `Week ${workoutData.weekNum}`;
-    document.querySelector('.workout-date').textContent = workoutData.date;
-    document.querySelector('.workout-detail-title').textContent = workoutData.title;
-    
-    // Update workout type
-    const workoutTypeElement = document.querySelector('.workout-type');
-    workoutTypeElement.textContent = getWorkoutTypeName(workoutData.type);
-    workoutTypeElement.className = `workout-type ${workoutData.type}`;
-    
-       // Update time without any prefix
-    document.querySelector('.workout-time').textContent = workoutData.time;
+    document.querySelector('.detail-date').textContent = workoutData.date;
+    document.querySelector('.detail-title').textContent = workoutData.title;
+    document.querySelector('.detail-meta').textContent = workoutData.time;
     
     // Populate structure list
     const structureList = document.querySelector('.structure-list');
