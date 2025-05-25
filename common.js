@@ -27,13 +27,10 @@ const PACES = {
     rest: 0         // No time for rest days
 };
 
-// Define the training plan with weekly distances
-// Complete 18-week marathon training plan with specific run types
+// Define the training plan with weekly distances calculated dynamically
 const trainingPlan = [
     // PHASE 1: Base Building (Weeks 1-4)
     { 
-        weekDistance: "40-45km", 
-        phase: "Base Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
@@ -45,8 +42,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "45-50km", 
-        phase: "Base Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 6km", distance: 6, type: "easy", time: formatTime(calculateRunTime(6, PACES.easy)) },
@@ -58,8 +53,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "50-55km", 
-        phase: "Base Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy)) },
@@ -71,8 +64,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "45-50km", 
-        phase: "Base Building - Recovery",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
@@ -86,8 +77,6 @@ const trainingPlan = [
 
     // PHASE 2: Strength Development (Weeks 5-8)
     { 
-        weekDistance: "55-60km", 
-        phase: "Strength Development",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy)) },
@@ -99,8 +88,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "60-65km", 
-        phase: "Strength Development",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 9km", distance: 9, type: "easy", time: formatTime(calculateRunTime(9, PACES.easy)) },
@@ -112,8 +99,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "65-70km", 
-        phase: "Strength Development",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 10km", distance: 10, type: "easy", time: formatTime(calculateRunTime(10, PACES.easy)) },
@@ -125,8 +110,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "55-60km", 
-        phase: "Strength Development - Recovery",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 7km", distance: 7, type: "easy", time: formatTime(calculateRunTime(7, PACES.easy)) },
@@ -140,8 +123,6 @@ const trainingPlan = [
 
     // PHASE 3: Endurance Building (Weeks 9-12)
     { 
-        weekDistance: "70-75km", 
-        phase: "Endurance Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 11km", distance: 11, type: "easy", time: formatTime(calculateRunTime(11, PACES.easy)) },
@@ -153,8 +134,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "75-80km", 
-        phase: "Endurance Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 12km", distance: 12, type: "easy", time: formatTime(calculateRunTime(12, PACES.easy)) },
@@ -166,8 +145,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "80-85km", 
-        phase: "Endurance Building",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 13km", distance: 13, type: "easy", time: formatTime(calculateRunTime(13, PACES.easy)) },
@@ -179,8 +156,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "70-75km", 
-        phase: "Endurance Building - Recovery",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 9km", distance: 9, type: "easy", time: formatTime(calculateRunTime(9, PACES.easy)) },
@@ -194,8 +169,6 @@ const trainingPlan = [
 
     // PHASE 4: Marathon Specific (Weeks 13-16)
     { 
-        weekDistance: "85-90km", 
-        phase: "Marathon Specific",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 14km", distance: 14, type: "easy", time: formatTime(calculateRunTime(14, PACES.easy)) },
@@ -207,8 +180,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "90-95km", 
-        phase: "Marathon Specific - Peak",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 15km", distance: 15, type: "easy", time: formatTime(calculateRunTime(15, PACES.easy)) },
@@ -220,8 +191,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "85-90km", 
-        phase: "Marathon Specific",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 13km", distance: 13, type: "easy", time: formatTime(calculateRunTime(13, PACES.easy)) },
@@ -233,8 +202,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "70-75km", 
-        phase: "Marathon Specific - Recovery",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 10km", distance: 10, type: "easy", time: formatTime(calculateRunTime(10, PACES.easy)) },
@@ -248,8 +215,6 @@ const trainingPlan = [
 
     // PHASE 5: Taper (Weeks 17-18)
     { 
-        weekDistance: "50-55km", 
-        phase: "Taper",
         workouts: [
             { title: "Crossfit", distance: 0, type: "strength", time: formatTime(PACES.strength) },
             { title: "Easy run 8km", distance: 8, type: "easy", time: formatTime(calculateRunTime(8, PACES.easy)) },
@@ -261,8 +226,6 @@ const trainingPlan = [
         ]
     },
     { 
-        weekDistance: "30-35km", 
-        phase: "Race Week",
         workouts: [
             { title: "Light Crossfit", distance: 0, type: "strength", time: formatTime(30) },
             { title: "Easy run 5km", distance: 5, type: "easy", time: formatTime(calculateRunTime(5, PACES.easy)) },
@@ -274,6 +237,21 @@ const trainingPlan = [
         ]
     }
 ];
+
+// Calculate weekDistance dynamically for each week
+trainingPlan.forEach((week, index) => {
+    const totalDistance = calculateWeekDistance(week.workouts);
+    week.weekDistance = `${totalDistance}km`;
+    week.phase = getPhaseForWeek(index + 1);
+});
+
+function getPhaseForWeek(weekNumber) {
+    if (weekNumber <= 4) return "Base Building";
+    if (weekNumber <= 8) return "Strength Development";
+    if (weekNumber <= 12) return "Endurance Building";
+    if (weekNumber <= 16) return "Marathon Specific";
+    return "Taper";
+}
 
 // Function to generate dates
 function generateDates(startDate, numWeeks) {
@@ -461,19 +439,6 @@ function getWorkoutTypeName(type) {
     
     return typeNames[type] || 'Workout';
 }
-// Helper function to get a user-friendly name for workout types
-function getWorkoutTypeName(type) {
-    const typeNames = {
-        'easy': 'Easy Run',
-        'tempo': 'Tempo Run',
-        'long': 'Long Run',
-        'interval': 'Interval Training',
-        'strength': 'Strength Training',
-        'rest': 'Rest Day'
-    };
-    
-    return typeNames[type] || 'Workout';
-}
 
 // Generate HTML for all weeks
 function generateWeeksHTML() {
@@ -623,13 +588,11 @@ function updateProgressBar(weekNum) {
         }
     });
     
-    const workoutsText = document.getElementById(`${weekId}-workouts`);
-    const distanceText = document.getElementById(`${weekId}-distance`);
+    const workoutsText = document.querySelector(`#${weekId}-container .workouts-count .value`);
+    const distanceText = document.querySelector(`#${weekId}-container .distance-count .value`);
     
-    if (workoutsText && distanceText) {
-        workoutsText.innerHTML = `<span class="label">Workouts:</span><span class="value">${completedWorkouts}/7</span>`;
-        distanceText.innerHTML = `<span class="label">Distance:</span><span class="value">${completedDistance}/${totalDistance}km</span>`;
-    }
+    if (workoutsText) workoutsText.textContent = `${completedWorkouts}/7`;
+    if (distanceText) distanceText.textContent = `${completedDistance}/${totalDistance}km`;
 }
 
 // Load progress from local storage
