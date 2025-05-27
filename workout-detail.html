@@ -177,6 +177,44 @@
                     }));
                 });
             }
+
+            // Handle feedback form
+            const feedbackForm = document.getElementById('workout-feedback-form');
+            const actualDistanceInput = document.getElementById('actual-distance');
+            const feelingSelect = document.getElementById('feeling');
+            const motivationSelect = document.getElementById('motivation');
+
+            // Get the workout ID for storage
+            const urlParams = new URLSearchParams(window.location.search);
+            const weekNum = parseInt(urlParams.get('week'));
+            const dayIndex = parseInt(urlParams.get('day'));
+            const workoutId = `week${weekNum}_day${dayIndex + 1}`;
+
+            // Load saved feedback data
+            const savedFeedback = JSON.parse(localStorage.getItem('workoutFeedback') || '{}');
+            if (savedFeedback[workoutId]) {
+                actualDistanceInput.value = savedFeedback[workoutId].actualDistance || '';
+                feelingSelect.value = savedFeedback[workoutId].feeling || '';
+                motivationSelect.value = savedFeedback[workoutId].motivation || '';
+            }
+
+            // Function to save feedback data
+            function saveFeedbackData() {
+                const feedbackData = {
+                    actualDistance: actualDistanceInput.value,
+                    feeling: feelingSelect.value,
+                    motivation: motivationSelect.value
+                };
+
+                const savedFeedback = JSON.parse(localStorage.getItem('workoutFeedback') || '{}');
+                savedFeedback[workoutId] = feedbackData;
+                localStorage.setItem('workoutFeedback', JSON.stringify(savedFeedback));
+            }
+
+            // Add event listeners to form fields
+            actualDistanceInput.addEventListener('change', saveFeedbackData);
+            feelingSelect.addEventListener('change', saveFeedbackData);
+            motivationSelect.addEventListener('change', saveFeedbackData);
         });
     </script>
 </body>
