@@ -14,7 +14,8 @@
 </head>
 <body>
     <div class="app-container">
-        <h1 class="page-heading font-heading-large">This week</h1>
+        <div class="week-date-range" id="current-week-date-range"></div>
+        <h1 class="page-heading">This week</h1>
 
         <div id="current-week-container">
             <!-- Current week content will be rendered here -->
@@ -130,6 +131,10 @@
                 // Calculate week dates starting from Monday
                 const weekDates = generateDatesForWeek(startDate);
                 
+                // Update week date range
+                document.getElementById('current-week-date-range').textContent = 
+                    formatDateRange(weekDates[0], weekDates[6]);
+                
                 // Update week header
                 document.getElementById('current-week-date').textContent = 
                     `Week ${weekNum}: ${formatDate(startDate)}`;
@@ -139,25 +144,24 @@
                 // Generate week content HTML
                 let weekHTML = `
                     <div class="week-container" id="${weekId}-container">
-                        <div class="week-content">
-                            <div class="progress-container">
-                                <div class="progress-bars">
-                                    ${Array(7).fill().map((_, i) => `
-                                        <div class="progress-segment" id="${weekId}-progress-${i}"></div>
-                                    `).join('')}
+                        <div class="progress-container">
+                            <div class="progress-bars">
+                                ${Array(7).fill().map((_, i) => `
+                                    <div class="progress-segment" id="${weekId}-progress-${i}"></div>
+                                `).join('')}
+                            </div>
+                            <div class="progress-footer">
+                                <div class="workouts-count" id="${weekId}-workouts">
+                                    <span class="label">Workouts:</span>
+                                    <span class="value">0/7</span>
                                 </div>
-                                <div class="progress-footer">
-                                    <div class="workouts-count" id="${weekId}-workouts">
-                                        <span class="label">Workouts:</span>
-                                        <span class="value">0/7</span>
-                                    </div>
-                                    <div class="distance-count" id="${weekId}-distance">
-                                        <span class="label">Distance:</span>
-                                        <span class="value">0/${calculateWeekDistance(currentWeek.workouts)}km</span>
-                                    </div>
+                                <div class="distance-count" id="${weekId}-distance">
+                                    <span class="label">Distance:</span>
+                                    <span class="value">0/${calculateWeekDistance(currentWeek.workouts)}km</span>
                                 </div>
                             </div>
-                            <div class="days-container">
+                        </div>
+                        <div class="days-container">
                 `;
 
                 // Generate day cards with onclick handler to navigate to detail page

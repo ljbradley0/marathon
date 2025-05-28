@@ -449,65 +449,30 @@ function generateWeeksHTML() {
     dates.forEach((weekDates, weekIndex) => {
         const weekPlan = trainingPlan[weekIndex];
         const weekId = `week${weekIndex + 1}`;
-        const firstDateOfWeek = formatDate(weekDates[0]);
         
         html += `
         <div class="week-container" id="${weekId}-container">
-            <button class="week-header" onclick="toggleWeek(this)">
-                <div class="week-header-content">
-                    <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="week-date">${firstDateOfWeek}</span>
-                </div>
-                <span class="week-distance">${weekPlan.weekDistance}</span>
-            </button>
-            
-            <div class="week-content collapsed">
-                <div class="progress-container">
-                    <div class="progress-bars">
-                        ${Array(7).fill().map((_, i) => `
-                            <div class="progress-segment" id="${weekId}-progress-${i}"></div>
-                        `).join('')}
-                    </div>
-                    <div class="progress-footer">
-                        <div class="workouts-count" id="${weekId}-workouts">
-                            <span class="label">Workouts:</span>
-                            <span class="value">0/7</span>
+            <div class="week-card" onclick="navigateToWeek(${weekIndex + 1})">
+                <div class="week-date-range">${formatDateRange(weekDates[0], weekDates[6])}</div>
+                <div class="week-title">Week ${weekIndex + 1}</div>
+                <div class="week-footer">
+                    <div class="progress-container">
+                        <div class="progress-bars">
+                            ${Array(7).fill().map((_, i) => `
+                                <div class="progress-segment" id="${weekId}-progress-${i}"></div>
+                            `).join('')}
                         </div>
-                        <div class="distance-count" id="${weekId}-distance">
-                            <span class="label">Distance:</span>
-                            <span class="value">0/${calculateWeekDistance(weekPlan.workouts)}km</span>
+                        <div class="progress-footer">
+                            <div class="workouts-count" id="${weekId}-workouts">
+                                <span class="label">Workouts</span>
+                                <span class="value">7</span>
+                            </div>
+                            <div class="distance-count" id="${weekId}-distance">
+                                <span class="label">Distance</span>
+                                <span class="value">${calculateWeekDistance(weekPlan.workouts)}km</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="days-container">
-        `;
-
-        weekDates.forEach((date, dayIndex) => {
-            const workout = weekPlan.workouts[dayIndex];
-            const id = `week${weekIndex + 1}_day${dayIndex + 1}`;
-            
-            html += `
-                <div class="day-card ${workout.type}" onclick="navigateToWorkout(${weekIndex + 1}, ${dayIndex})">
-                    <div class="card-header">
-                        <div class="date-container">
-                            ${formatDate(date)}
-                        </div>
-                        <div class="checkbox-container" onclick="event.stopPropagation()">
-                            <input type="checkbox" id="${id}" onchange="toggleCompleted(this, ${weekIndex + 1})">
-                            <ion-icon name="checkmark-circle-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="workout-title">${workout.title}</div>
-                        <div class="workout-time">${workout.time}</div>
-                    </div>
-                </div>
-            `;
-        });
-
-        html += `
                 </div>
             </div>
         </div>
@@ -515,15 +480,6 @@ function generateWeeksHTML() {
     });
 
     return html;
-}
-
-// Toggle week expansion
-function toggleWeek(button) {
-    const content = button.nextElementSibling;
-    const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    
-    button.setAttribute('aria-expanded', !isExpanded);
-    content.classList.toggle('collapsed');
 }
 
 // Toggle completed class when checkbox is checked
@@ -591,8 +547,8 @@ function updateProgressBar(weekNum) {
     const workoutsText = document.querySelector(`#${weekId}-container .workouts-count .value`);
     const distanceText = document.querySelector(`#${weekId}-container .distance-count .value`);
     
-    if (workoutsText) workoutsText.textContent = `${completedWorkouts}/7`;
-    if (distanceText) distanceText.textContent = `${completedDistance}/${totalDistance}km`;
+    if (workoutsText) workoutsText.textContent = `7`;
+    if (distanceText) distanceText.textContent = `${completedDistance}km`;
 }
 
 // Load progress from local storage
@@ -632,9 +588,10 @@ function loadProgress() {
         }
     });
     
-    weekNums.forEach(weekNum => {
+    // Update progress bars for all weeks, even if they have no completed workouts
+    for (let weekNum = 1; weekNum <= trainingPlan.length; weekNum++) {
         updateProgressBar(weekNum);
-    });
+    }
 }
 
 // Initialize the proper page based on URL
@@ -707,4 +664,38 @@ function initializeWorkoutDetailPage() {
     
     // Populate coaching notes
     document.querySelector('.coaching-notes').innerHTML = `<p>${workoutData.coachingNotes}</p>`;
+}
+
+// Add this new helper function for formatting date ranges
+function formatDateRange(startDate, endDate) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const startMonth = months[startDate.getMonth()];
+    const endMonth = months[endDate.getMonth()];
+    const startDay = startDate.getDate();
+    const endDay = endDate.getDate();
+    
+    if (startMonth === endMonth) {
+        return `${startMonth} ${startDay} - ${endDay}`;
+    } else {
+        return `${startMonth} ${startDay} - ${endMonth} ${endDay}`;
+    }
+}
+
+// Function to navigate to week detail page
+function navigateToWeek(weekNum) {
+    // Store the current page as the referrer
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    sessionStorage.setItem('weekReferrer', currentPage);
+    
+    // Store the week data in sessionStorage
+    const weekData = {
+        weekNum: weekNum,
+        startDate: new Date('2025-05-26'),
+        workouts: trainingPlan[weekNum - 1].workouts
+    };
+    
+    sessionStorage.setItem('currentWeek', JSON.stringify(weekData));
+    
+    // Navigate to the week detail page
+    window.location.href = `week-detail.html?week=${weekNum}`;
 }

@@ -187,6 +187,12 @@ body {
 .page-heading {
     margin-bottom: var(--spacing-md);
     text-align: center;
+    color: var(--color-text-primary);
+    font-family: var(--font-family);
+    font-size: var(--font-heading-large-size);
+    font-weight: var(--font-heading-large-weight);
+    line-height: var(--font-heading-large-line-height);
+    letter-spacing: var(--font-heading-large-letter-spacing);
 }
 
 /* Bottom Navigation Styles */
@@ -279,7 +285,8 @@ body {
 }
 
 .week-container {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    width: 100%;
 }
 
 /* Rotate chevron when expanded */
@@ -299,7 +306,6 @@ body {
 
 /* Progress bar styling */
 .progress-container {
-    margin: var(--spacing-sm) 0 var(--spacing-md) 0;
     width: 100%;
 }
 
@@ -727,14 +733,7 @@ body {
 }
 
 .heading {
-    color: #000;
-    text-align: center;
-    font-family: "Josefin Sans";
-    font-size: 28px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 32px;
-    letter-spacing: -0.28px;
+    /* Remove this class as it's now consolidated into .page-heading */
 }
 
 .progress-circle {
@@ -941,10 +940,7 @@ body {
 }
 
 .heading-1 {
-    font-size: var(--font-heading-large-size);
-    line-height: var(--font-heading-large-line-height);
-    font-weight: var(--font-heading-large-weight);
-    letter-spacing: var(--font-heading-large-letter-spacing);
+    /* Remove this class as it's now consolidated into .page-heading */
 }
 
 /* Workout Feedback Section */
@@ -1118,4 +1114,55 @@ body {
 
 .complete-button.completed ion-icon {
     color: var(--color-brand-500);
+}
+
+/* Week Card Styles */
+.week-card {
+    display: flex;
+    flex-grow: 1;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 16px;
+    background: var(--elevation-surface-default, #FFF);
+    margin: 0 auto;
+}
+
+/* Header date range styling */
+.week-date-range {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Week card date range styling */
+.week-card .week-date-range {
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.week-title {
+    color: #1A0505;
+    font-family: "Josefin Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+}
+
+.week-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
 }
