@@ -286,6 +286,7 @@ body {
 
 .week-container {
     margin-bottom: var(--spacing-md);
+    gap: var(--spacing-sm);
     width: 100%;
 }
 
@@ -363,15 +364,19 @@ body {
 }
 
 .day-card {
-    background: var(--elevation-surface-default, #FFF);
-    border-radius: 16px;
+    background-color: var(--color-card-background);
+    border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 0px 9px 0px rgba(26, 5, 5, 0.03);
+    margin-bottom: var(--spacing-sm);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Add style for active card in current week */
+.day-card.active {
+    border-radius: 16px;
+    border: 3px solid rgba(176, 178, 255, 0.70);
+    background: var(--elevation-surface-default, #FFF);
 }
 
 .card-header {
@@ -1124,9 +1129,18 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    border-radius: 16px;
-    background: var(--elevation-surface-default, #FFF);
+    border-radius: var(--radius-md);
+    background: var(--color-card-background);
     margin: 0 auto;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.week-card.active {
+    border-radius: 16px;
+    border: 3px solid rgba(176, 178, 255, 0.70);
+    background: var(--elevation-surface-default, #FFF);
 }
 
 /* Header date range styling */
@@ -1165,4 +1179,66 @@ body {
     align-items: flex-start;
     gap: 8px;
     align-self: stretch;
+}
+
+.goal-card {
+    display: flex;
+    flex: 1 1 0;
+    width: 100%;
+    padding: 18px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 16px;
+    background: #FFF;
+    box-shadow: 0px 0px 9px 0px rgba(26, 5, 5, 0.03);
+    margin: 0 auto var(--spacing-xl) auto;
+}
+
+.goal-title {
+    color: #1A0505;
+    font-family: "Josefin Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+}
+
+.goal-tally-main {
+    color: #000;
+    font-family: "Josefin Sans";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -0.28px;
+}
+
+.goal-tally-label {
+    color: var(--text-subtle, #969696);
+    font-family: "Josefin Sans";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.15px;
+}
+
+.goal-check {
+    color: var(--color-brand-500);
+    font-size: 22px;
+    line-height: 1;
+}
+
+.goal-details {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    align-self: stretch;
+    margin-top: 12px;
+}
+
+.goal-header {
+    gap: 1px;
 }

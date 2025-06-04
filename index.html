@@ -42,35 +42,42 @@
                 </div>
             </div>
 
+            <div class="goal-card">
+              <div class="goal-header">
+                <span class="goal-title">Goal</span>
+                <span class="goal-subtitle">Last 7 days</span>
+              </div>
+              <div class="goal-details">
+                <div class="goal-tally">
+                  <span class="goal-tally-main" id="goal-tally-main">0/0</span>
+                  <span class="goal-tally-label">Achieved</span>
+                </div>
+                <div class="goal-progress">
+                  <div class="goal-checks" id="goal-checks"></div>
+                  <div class="goal-days" id="goal-days"></div>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="font-heading-medium" style="margin: var(--spacing-xl) 0 var(--spacing-md) 0;">Today</h2>
+            <div id="today-workout">
+                <!-- Today's workout will be rendered here -->
+            </div>
+
         </main>
 
         <!-- Bottom Navigation Bar -->
         <nav class="bottom-nav">
             <a href="index.html" class="nav-item active" id="home-link">
-                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <ion-icon name="home-outline" class="nav-icon"></ion-icon>
                 <span class="nav-label font-body-small">Home</span>
             </a>
             <a href="this-week.html" class="nav-item" id="this-week-link">
-                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <ion-icon name="calendar-outline" class="nav-icon"></ion-icon>
                 <span class="nav-label font-body-small">This Week</span>
             </a>
             <a href="coming-up.html" class="nav-item" id="coming-up-link">
-                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3 6H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3 12H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <ion-icon name="list-outline" class="nav-icon"></ion-icon>
                 <span class="nav-label font-body-small">Coming Up</span>
             </a>
         </nav>
@@ -105,6 +112,11 @@
                 renderProgressChart();
                 renderWorkoutsChart();
                 renderDistanceChart();
+                
+                // Render goal card for week 1
+                renderGoalCard();
+                // Render today's workout
+                renderTodayWorkout();
                 
                 console.log("Dashboard initialized successfully");
             } catch (error) {
@@ -259,6 +271,89 @@
             }
             
             return count;
+        }
+
+        // Render today's workout card
+        function renderTodayWorkout() {
+            const today = new Date();
+            const startDate = new Date(today);
+            // Get to previous Monday (if today is Monday, stay on Monday)
+            const day = today.getDay();
+            const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Monday
+            startDate.setDate(diff);
+            
+            // Calculate the day index (0-6) for today
+            const dayIndex = (today.getDay() + 6) % 7; // Convert Sunday=0 to Monday=0
+            
+            // Get the workout for today
+            const currentWeek = trainingPlan[0]; // Using first week for now
+            const workout = currentWeek.workouts[dayIndex];
+            const id = `week1_day${dayIndex + 1}`;
+            
+            // Generate the workout card HTML
+            const workoutHTML = `
+                <div class="day-card ${workout.type}" onclick="navigateToWorkout(1, ${dayIndex})">
+                    <div class="card-header">
+                        <div class="date-container">
+                            ${formatDate(today)}
+                        </div>
+                        <div class="checkbox-container" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="${id}" onchange="toggleCompleted(this, 1)">
+                            <ion-icon name="checkmark-circle-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="workout-title">${workout.title}</div>
+                        <div class="workout-time">${workout.time}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('today-workout').innerHTML = workoutHTML;
+            
+            // Load the checkbox state
+            const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+            const checkbox = document.getElementById(id);
+            if (checkbox && savedProgress[id]) {
+                checkbox.checked = true;
+                const container = checkbox.closest('.checkbox-container');
+                if (container) {
+                    container.classList.add('checked');
+                    const icon = container.querySelector('ion-icon');
+                    if (icon) {
+                        icon.setAttribute('name', 'checkmark-circle');
+                    }
+                }
+            }
+        }
+
+        // Render goal card for week 1
+        function renderGoalCard() {
+          const today = new Date();
+          const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+          const savedProgress = JSON.parse(localStorage.getItem('marathonProgress') || '{}');
+          let completed = 0;
+          let total = 0;
+          let checksHTML = '';
+          let daysHTML = '';
+
+          // Find the current day index (Monday=0)
+          const dayIndex = (today.getDay() + 6) % 7;
+          for (let i = 0; i < 7; i++) {
+            const id = `week1_day${i + 1}`;
+            total++;
+            if (savedProgress[id]) {
+              completed++;
+              checksHTML += `<ion-icon name="checkmark-outline" class="goal-check"></ion-icon>`;
+            } else {
+              checksHTML += `<ion-icon name="checkmark-outline" class="goal-check" style="opacity:0.2"></ion-icon>`;
+            }
+            daysHTML += `<span class="goal-day${i === dayIndex ? ' current' : ''}">${daysOfWeek[i]}</span>`;
+          }
+
+          document.getElementById('goal-tally-main').textContent = `${completed}/${total}`;
+          document.getElementById('goal-checks').innerHTML = checksHTML;
+          document.getElementById('goal-days').innerHTML = daysHTML;
         }
     </script>
 </body>

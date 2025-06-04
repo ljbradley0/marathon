@@ -442,17 +442,22 @@ function getWorkoutTypeName(type) {
 
 // Generate HTML for all weeks
 function generateWeeksHTML() {
-    const startDate = new Date('2025-05-26');
+    // Get current date and set it to the start of the week (Sunday)
+    const today = new Date();
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - today.getDay()); // Set to previous Sunday
+    
     const dates = generateDates(startDate, trainingPlan.length);
     let html = '';
 
     dates.forEach((weekDates, weekIndex) => {
         const weekPlan = trainingPlan[weekIndex];
         const weekId = `week${weekIndex + 1}`;
+        const isCurrentWeek = today >= weekDates[0] && today <= weekDates[6];
         
         html += `
         <div class="week-container" id="${weekId}-container">
-            <div class="week-card" onclick="navigateToWeek(${weekIndex + 1})">
+            <div class="week-card ${isCurrentWeek ? 'active' : ''}" onclick="navigateToWeek(${weekIndex + 1})">
                 <div class="week-date-range">${formatDateRange(weekDates[0], weekDates[6])}</div>
                 <div class="week-title">Week ${weekIndex + 1}</div>
                 <div class="week-footer">
@@ -548,7 +553,7 @@ function updateProgressBar(weekNum) {
     const distanceText = document.querySelector(`#${weekId}-container .distance-count .value`);
     
     if (workoutsText) workoutsText.textContent = `7`;
-    if (distanceText) distanceText.textContent = `${completedDistance}km`;
+    if (distanceText) distanceText.textContent = `${completedDistance}/${totalDistance}km`;
 }
 
 // Load progress from local storage
